@@ -94,13 +94,13 @@
       }
     },
     "gaxos.content-generation": {
-      "version": "https://github.com/nftgco/gaxos-content-generation.git#11521f18563cf47fa81c75807d5d4d8c8f76636b",
+      "version": "https://github.com/nftgco/gaxos-content-generation.git#057c91e82e864481251f81cf7807f76fa864d0b4",
       "depth": 0,
       "source": "git",
       "dependencies": {
         "com.unity.editorcoroutines": "1.0.0"
       },
-      "hash": "11521f18563cf47fa81c75807d5d4d8c8f76636b"
+      "hash": "057c91e82e864481251f81cf7807f76fa864d0b4"
     },
     "com.unity.modules.ai": {
       "version": "1.0.0",
