@@ -39,6 +39,6 @@
     "com.unity.modules.vr": "1.0.0",
     "com.unity.modules.wind": "1.0.0",
     "com.unity.modules.xr": "1.0.0",
-    "gaxos.content-generation": "https://github.com/nftgco/gaxos-content-generation.git#93e5e4f689d3dce1983050bc553290c39aa83993"
+    "gaxos.content-generation": "https://github.com/nftgco/gaxos-content-generation.git#5fc55c363b653b06b0b7b3c836b77f73c501580c"
   }
 }
