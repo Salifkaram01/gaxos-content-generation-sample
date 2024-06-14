@@ -98,9 +98,10 @@
       "depth": 0,
       "source": "git",
       "dependencies": {
-        "com.unity.editorcoroutines": "1.0.0"
+        "com.unity.editorcoroutines": "1.0.0",
+        "com.unity.nuget.newtonsoft-json": "3.2.1"
       },
-      "hash": "5fc55c363b653b06b0b7b3c836b77f73c501580c"
+      "hash": "55880f918386522eff95076d5c5d59bc6820d63e"
     },
     "com.unity.modules.ai": {
       "version": "1.0.0",
