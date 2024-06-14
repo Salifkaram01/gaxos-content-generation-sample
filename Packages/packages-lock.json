@@ -94,7 +94,7 @@
       }
     },
     "gaxos.content-generation": {
-      "version": "https://github.com/nftgco/gaxos-content-generation.git#5fc55c363b653b06b0b7b3c836b77f73c501580c",
+      "version": "https://github.com/nftgco/gaxos-content-generation.git#main",
       "depth": 0,
       "source": "git",
       "dependencies": {
