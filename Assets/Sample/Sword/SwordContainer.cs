@@ -113,7 +113,7 @@ namespace Sample.Sword
 
                 if (www.result != UnityWebRequest.Result.Success)
                 {
-                    ret.SetException(new Exception(www.error));
+                    ret.SetException(new Exception($"{www.error}: {www.downloadHandler?.text}"));
                     yield break;
                 }
 
