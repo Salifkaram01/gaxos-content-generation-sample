@@ -3,11 +3,11 @@ using Sample.Base;
 
 namespace Sample.Common
 {
-    public class StabilityRequestRow : RequestRow
+    public class ComfyRequestRow : RequestRow
     {
         protected override string GetPrompt(Request request)
         {
-            return request.GeneratorParameters["text_prompts"]!.First!["text"]!.ToObject<string>();
+            return request.GeneratorParameters["prompt"]!.ToObject<string>();
         }
     }
 }

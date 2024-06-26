@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 using ContentGeneration;
-using ContentGeneration.Models.Stability;
+using ContentGeneration.Models.Comfy;
 using Sample.Base;
 using Sample.Common;
 
@@ -12,29 +12,12 @@ namespace Sample.Flag
 
         protected override Task RequestGeneration(string prompt)
         {
-            return ContentGenerationApi.Instance.RequestStabilityTextToImageGeneration
-            (new StabilityTextToImageParameters
+            return ContentGenerationApi.Instance.RequestComfyTextToImageGeneration
+            (new ComfyTextToImageParameters
             {
-                TextPrompts = new[]
-                {
-                    new Prompt
-                    {
-                        Text = prompt,
-                        Weight = 1,
-                    },
-                    new Prompt
-                    {
-                        Text = "Flat flag",
-                        Weight = 0.5f,
-                    },
-                    new Prompt
-                    {
-                        Text = "High quality",
-                        Weight = 0.5f,
-                    }
-                },
-                Samples = 4,
-                StylePreset = "digital-art"
+                Prompt = prompt,
+                NegativePrompt = "Background, 3D, low quality, blurry",
+                NSamples = 4,
             }, data: new
             {
                 ProfileSettings.playerId,

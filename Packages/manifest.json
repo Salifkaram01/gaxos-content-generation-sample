@@ -3,11 +3,12 @@
     "com.unity.2d.sprite": "1.0.0",
     "com.unity.device-simulator.devices": "1.0.0",
     "com.unity.editorcoroutines": "1.0.0",
-    "com.unity.ide.rider": "3.0.27",
+    "com.unity.ide.rider": "3.0.31",
     "com.unity.nuget.newtonsoft-json": "3.2.1",
-    "com.unity.textmeshpro": "3.0.8",
+    "com.unity.textmeshpro": "3.0.9",
     "com.unity.toolchain.macos-arm64-linux-x86_64": "2.0.0",
     "com.unity.ugui": "1.0.0",
+    "gaxos.content-generation": "https://github.com/nftgco/gaxos-content-generation.git#main",
     "com.unity.modules.ai": "1.0.0",
     "com.unity.modules.androidjni": "1.0.0",
     "com.unity.modules.animation": "1.0.0",
@@ -38,7 +39,6 @@
     "com.unity.modules.video": "1.0.0",
     "com.unity.modules.vr": "1.0.0",
     "com.unity.modules.wind": "1.0.0",
-    "com.unity.modules.xr": "1.0.0",
-    "gaxos.content-generation": "https://github.com/nftgco/gaxos-content-generation.git#main"
+    "com.unity.modules.xr": "1.0.0"
   }
 }

@@ -1,8 +1,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using ContentGeneration;
-using ContentGeneration.Models;
-using ContentGeneration.Models.Stability;
+using ContentGeneration.Models.Comfy;
 using Sample.Base;
 using Sample.Common;
 using UnityEngine;
@@ -13,35 +12,20 @@ namespace Sample.Shield
     public class NewShieldForm : NewGeneratedImageForm
     {
         public const string ShieldSubject = "Shield";
-        [SerializeField] Texture2D _backgroundImage;
         [SerializeField] Toggle[] _maskToggles;
 
         protected override Task RequestGeneration(string prompt)
         {
             var selectedMaskToggle = _maskToggles.First(t => t.isOn);
             var selectedMask = selectedMaskToggle.GetComponentInChildren<RawImage>();
-            return ContentGenerationApi.Instance.RequestStabilityMaskedImageGeneration
-            (new StabilityMaskedImageParameters
+            return ContentGenerationApi.Instance.RequestComfyMaskingGeneration
+            (new ComfyMaskingParameters
                 {
-                    TextPrompts = new[]
-                    {
-                        new Prompt
-                        {
-                            Text = prompt,
-                            Weight = 1f,
-                        }
-                    },
-                    Samples = 4,
-                    InitImage = _backgroundImage,
-                    MaskImage = (Texture2D)selectedMask.texture,
-                    MaskSource = MaskSource.MaskImageWhite,
-                    StylePreset = "digital-art",
+                    Prompt = prompt,
+                    NSamples = 4,
+                    Mask = (Texture2D)selectedMask.texture,
                 },
-                new GenerationOptions()
-                {
-                    TransparentColor = Color.magenta
-                },
-                new
+                data: new
                 {
                     ProfileSettings.playerId,
                     subject = ShieldSubject
