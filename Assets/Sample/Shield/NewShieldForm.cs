@@ -1,7 +1,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using ContentGeneration;
-using ContentGeneration.Models.Comfy;
+using ContentGeneration.Models.Gaxos;
 using Sample.Base;
 using Sample.Common;
 using UnityEngine;
@@ -18,8 +18,8 @@ namespace Sample.Shield
         {
             var selectedMaskToggle = _maskToggles.First(t => t.isOn);
             var selectedMask = selectedMaskToggle.GetComponentInChildren<RawImage>();
-            return ContentGenerationApi.Instance.RequestComfyMaskingGeneration
-            (new ComfyMaskingParameters
+            return ContentGenerationApi.Instance.RequestGaxosMaskingGeneration
+            (new GaxosMaskingParameters
                 {
                     Prompt = prompt,
                     NSamples = 4,

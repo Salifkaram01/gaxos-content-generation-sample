@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 using ContentGeneration;
-using ContentGeneration.Models.Comfy;
+using ContentGeneration.Models.Gaxos;
 using Sample.Base;
 using Sample.Common;
 
@@ -12,8 +12,8 @@ namespace Sample.Flag
 
         protected override Task RequestGeneration(string prompt)
         {
-            return ContentGenerationApi.Instance.RequestComfyTextToImageGeneration
-            (new ComfyTextToImageParameters
+            return ContentGenerationApi.Instance.RequestGaxosTextToImageGeneration
+            (new GaxosTextToImageParameters
             {
                 Prompt = prompt,
                 NegativePrompt = "Background, 3D, low quality, blurry",

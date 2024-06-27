@@ -3,7 +3,7 @@ using Sample.Base;
 
 namespace Sample.Common
 {
-    public class ComfyRequestRow : RequestRow
+    public class GaxosRequestRow : RequestRow
     {
         protected override string GetPrompt(Request request)
         {
