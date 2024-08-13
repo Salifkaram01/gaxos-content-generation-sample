@@ -19,8 +19,8 @@ namespace Sample.Sword
                 ArtStyle = TextToMeshArtStyle.Cartoon,
             }, data: new
             {
-                ProfileSettings.playerId,
-                subject = SwordSubject
+                player_id = ProfileSettings.playerId,
+                asset_type = SwordSubject
             });
         }
     }

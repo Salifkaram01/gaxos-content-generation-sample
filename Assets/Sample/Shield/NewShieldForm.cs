@@ -27,8 +27,8 @@ namespace Sample.Shield
                 },
                 data: new
                 {
-                    ProfileSettings.playerId,
-                    subject = ShieldSubject
+                    player_id = ProfileSettings.playerId,
+                    asset_type = ShieldSubject
                 });
         }
     }

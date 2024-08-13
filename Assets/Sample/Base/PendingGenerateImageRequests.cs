@@ -9,6 +9,7 @@ using ContentGeneration.Models;
 using Sample.Common;
 using UnityEngine;
 using UnityEngine.Events;
+using QueryParameters = ContentGeneration.Models.QueryParameters;
 
 namespace Sample.Base
 {
@@ -61,22 +62,22 @@ namespace Sample.Base
         async Task RefreshAsync()
         {
             var requests = await ContentGenerationApi.Instance.GetRequests(
-                /*TODO:
-                 new
+                new QueryParameters
                 {
-                    playerId = PlayerId.value,
-                    subject = _subject
-                }*/);
+                    FilterByPlayerId = ProfileSettings.playerId,
+                    FilterByAssetType = subject,
+                    Sort = new []
+                    {
+                        new QueryParameters.SortBy
+                        {
+                            Target = QueryParameters.SortTarget.CreatedAt,
+                            Direction = QueryParameters.SortDirection.Descending
+                        }
+                    }
+                });
             var rowsToRemove = _rows.Keys.ToList();
             foreach (var request in requests)
             {
-                if (request.Data?["playerId"] == null || request.Data["subject"] == null)
-                {
-                    continue;
-                }
-                if (request.Data["playerId"].ToObject<string>() != ProfileSettings.playerId ||
-                    request.Data["subject"].ToObject<string>() != subject) continue;
-                
                 if (!_rows.ContainsKey(request.ID))
                 {
                     var requestRow = Instantiate(_requestRowPrefab, transform);

@@ -17,7 +17,7 @@ namespace Sample.Body
         protected override Task RequestGeneration(string prompt)
         {
             return ContentGenerationApi.Instance.RequestMeshyTextToTextureGeneration
-            (new MeshyTextToTextureParameters()
+            (new MeshyTextToTextureParameters
             {
                 Model = _model.bytes,
                 ModelExtension = _modelExtension,
@@ -27,8 +27,8 @@ namespace Sample.Body
                 ArtStyle = TextToTextureArtStyle.Fake3dCartoon,
             }, data: new
             {
-                ProfileSettings.playerId,
-                subject = BodySubject
+                player_id = ProfileSettings.playerId,
+                asset_type = BodySubject
             });
         }
     }

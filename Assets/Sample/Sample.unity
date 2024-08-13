@@ -10983,6 +10983,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8414670297597574950, guid: 54161ee61246c4c118bc3ef47ddf4732, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 481.7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -11115,7 +11119,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-  _backgroundImage: {fileID: 2800000, guid: 3f78084b8cdaf444fb7acdfbd533e36e, type: 3}
   _maskToggles:
   - {fileID: 156297491}
   - {fileID: 1514658115}

@@ -20,8 +20,8 @@ namespace Sample.Flag
                 NSamples = 4,
             }, data: new
             {
-                ProfileSettings.playerId,
-                subject = FlagSubject
+                player_id = ProfileSettings.playerId,
+                asset_type = FlagSubject
             });
         }
     }

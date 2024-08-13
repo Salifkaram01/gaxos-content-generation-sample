@@ -52,7 +52,7 @@ namespace Sample.Body
         async Task RefreshImageAsync(JToken textureGroup, CancellationToken token)
         {
             Texture2D baseColor = null;
-            if (textureGroup["base_color"] != null)
+            if (!string.IsNullOrEmpty(textureGroup["base_color"].ToObject<string>()))
             {
                 baseColor = await TextureHelper.DownloadImage(textureGroup["base_color"].ToObject<string>(), token);
             }
@@ -60,7 +60,7 @@ namespace Sample.Body
             if (token.IsCancellationRequested)
                 return;
             Texture2D normalMap = null;
-            if (textureGroup["normal"] != null)
+            if (!string.IsNullOrEmpty(textureGroup["normal"].ToObject<string>()))
             {
                 normalMap = await TextureHelper.DownloadImage(textureGroup["normal"].ToObject<string>(), token);
             }
@@ -68,7 +68,7 @@ namespace Sample.Body
             if (token.IsCancellationRequested)
                 return;
             Texture2D specularMap = null;
-            if (textureGroup["roughness"] != null)
+            if (!string.IsNullOrEmpty(textureGroup["roughness"].ToObject<string>()))
             {
                 specularMap = await TextureHelper.DownloadImage(textureGroup["roughness"].ToObject<string>(), token);
             }

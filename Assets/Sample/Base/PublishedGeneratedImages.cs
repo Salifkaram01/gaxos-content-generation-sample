@@ -28,12 +28,19 @@ namespace Sample.Base
                 Destroy(child.gameObject);
             }
             var publishedImages = await ContentGenerationApi.Instance.GetPublishedAssets(
-                /*TODO:
-                 new
+                new ContentGeneration.Models.QueryParameters
                 {
-                    playerId = PlayerId.value,
-                    subject = _subject
-                }*/);
+                    FilterByPlayerId = ProfileSettings.playerId,
+                    FilterByAssetType = subject,
+                    Sort = new []
+                    {
+                        new ContentGeneration.Models.QueryParameters.SortBy
+                        {
+                            Target = ContentGeneration.Models.QueryParameters.SortTarget.CreatedAt,
+                            Direction = ContentGeneration.Models.QueryParameters.SortDirection.Descending
+                        }
+                    }
+                });
 
             if (token.IsCancellationRequested)
             {
@@ -42,13 +49,6 @@ namespace Sample.Base
             
             foreach (var publishedImage in publishedImages)
             {
-                if (publishedImage.Request.Data?["playerId"] == null || publishedImage.Request.Data["subject"] == null)
-                {
-                    continue;
-                }
-                if (publishedImage.Request.Data["playerId"].ToObject<string>() != ProfileSettings.playerId ||
-                    publishedImage.Request.Data["subject"].ToObject<string>() != subject) continue;
-                
                 var publishedImageRow = Instantiate(_publishedImageRow, transform);
                 publishedImageRow.SetPublishedImage(publishedImage);
             }
