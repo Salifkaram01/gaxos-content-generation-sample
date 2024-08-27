@@ -93,16 +93,6 @@
         "com.unity.modules.imgui": "1.0.0"
       }
     },
-    "gaxos.content-generation": {
-      "version": "https://github.com/nftgco/gaxos-content-generation.git#main",
-      "depth": 0,
-      "source": "git",
-      "dependencies": {
-        "com.unity.editorcoroutines": "1.0.0",
-        "com.unity.nuget.newtonsoft-json": "3.2.1"
-      },
-      "hash": "5460dd8bf0e4ebb5b49082754117768ece1f1df9"
-    },
     "com.unity.modules.ai": {
       "version": "1.0.0",
       "depth": 0,
