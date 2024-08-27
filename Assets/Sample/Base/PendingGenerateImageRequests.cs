@@ -73,7 +73,9 @@ namespace Sample.Base
                             Target = QueryParameters.SortTarget.CreatedAt,
                             Direction = QueryParameters.SortDirection.Descending
                         }
-                    }
+                    },
+                    Limit = 100,
+                    Offset = 0
                 });
             var rowsToRemove = _rows.Keys.ToList();
             foreach (var request in requests)
