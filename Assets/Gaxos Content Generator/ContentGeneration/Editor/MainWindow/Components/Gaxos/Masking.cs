@@ -32,8 +32,8 @@ namespace ContentGeneration.Editor.MainWindow.Components.Gaxos
 
         public Masking()
         {
-            gaxosParametersElement.OnCodeChanged += RefreshCode;
-            generationOptionsElement.OnCodeChanged += RefreshCode;
+            gaxosParametersElement.OnCodeHasChanged = RefreshCode;
+            generationOptionsElement.OnCodeHasChanged = RefreshCode;
 
             maskRequired.style.visibility = Visibility.Hidden;
 

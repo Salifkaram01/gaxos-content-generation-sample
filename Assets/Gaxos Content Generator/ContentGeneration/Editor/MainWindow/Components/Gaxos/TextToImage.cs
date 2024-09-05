@@ -20,24 +20,20 @@ namespace ContentGeneration.Editor.MainWindow.Components.Gaxos
             }
         }
 
-        SliderInt width => this.Q<SliderInt>("width");
-        SliderInt height => this.Q<SliderInt>("height");
+        TextToImageParameters parameters => this.Q<TextToImageParameters>("parameters");
 
-        TextField code => this.Q<TextField>("code");
-        GaxosParametersElement gaxosParametersElement => this.Q<GaxosParametersElement>("gaxosParametersElement");
-        GenerationOptionsElement generationOptionsElement => this.Q<GenerationOptionsElement>("generationOptions");
         VisualElement requestSent => this.Q<VisualElement>("requestSent");
         VisualElement requestFailed => this.Q<VisualElement>("requestFailed");
         VisualElement sendingRequest => this.Q<VisualElement>("sendingRequest");
         Button generateButton => this.Q<Button>("generateButton");
 
+        TextField code => this.Q<TextField>("code");
+
         public TextToImage()
         {
-            gaxosParametersElement.OnCodeChanged += RefreshCode;
-            width.RegisterValueChangedCallback(_ => RefreshCode());
-            height.RegisterValueChangedCallback(_ => RefreshCode());
-            generationOptionsElement.OnCodeChanged += RefreshCode;
-
+            parameters.OnCodeHasChanged = RefreshCode;
+            parameters.generationOptionsElement.OnCodeHasChanged = RefreshCode;
+            
             requestSent.style.display = DisplayStyle.None;
             requestFailed.style.display = DisplayStyle.None;
             sendingRequest.style.display = DisplayStyle.None;
@@ -49,7 +45,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.Gaxos
                 requestSent.style.display = DisplayStyle.None;
                 requestFailed.style.display = DisplayStyle.None;
 
-                if (!gaxosParametersElement.Valid())
+                if (!parameters.Valid())
                 {
                     return;
                 }
@@ -58,15 +54,11 @@ namespace ContentGeneration.Editor.MainWindow.Components.Gaxos
                 sendingRequest.style.display = DisplayStyle.Flex;
 
 
-                var parameters = new GaxosTextToImageParameters
-                {
-                    Width = (uint)width.value,
-                    Height = (uint)height.value
-                };
-                gaxosParametersElement.ApplyParameters(parameters);
+                var gaxosTextToImageParameters = new GaxosTextToImageParameters();
+                parameters.ApplyParameters(gaxosTextToImageParameters);
                 ContentGenerationApi.Instance.RequestGaxosTextToImageGeneration(
-                    parameters,
-                    generationOptionsElement.GetGenerationOptions(), data: new
+                    gaxosTextToImageParameters,
+                    parameters.generationOptionsElement.GetGenerationOptions(), data: new
                     {
                         player_id = ContentGenerationStore.editorPlayerId
                     }).ContinueInMainThreadWith(
@@ -86,7 +78,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.Gaxos
                         ContentGenerationStore.Instance.RefreshRequestsAsync().Finally(() => ContentGenerationStore.Instance.RefreshStatsAsync().CatchAndLog());
                     });
             });
-
+            
             RefreshCode();
         }
 
@@ -96,9 +88,9 @@ namespace ContentGeneration.Editor.MainWindow.Components.Gaxos
                 "var requestId = await ContentGenerationApi.Instance.RequestGaxosTextToImageGeneration\n" +
                 "\t(new GaxosTextToImageParameters\n" +
                 "\t{\n" +
-                gaxosParametersElement?.GetCode() +
+                parameters?.GetCode() +
                 "\t},\n" +
-                $"{generationOptionsElement?.GetCode()}" +
+                $"{parameters.generationOptionsElement?.GetCode()}" +
                 ")";
         }
     }

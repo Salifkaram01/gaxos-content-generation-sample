@@ -37,8 +37,8 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
 
         public Masking()
         {
-            stabilityParameters.OnCodeChanged += RefreshCode;
-            generationOptions.OnCodeChanged += RefreshCode;
+            stabilityParameters.OnCodeHasChanged = RefreshCode;
+            generationOptions.OnCodeHasChanged = RefreshCode;
             
             var engines = new[]
             {

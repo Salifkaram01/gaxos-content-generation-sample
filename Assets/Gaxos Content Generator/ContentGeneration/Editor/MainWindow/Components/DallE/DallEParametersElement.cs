@@ -127,8 +127,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.DallE
                 (modelValue == Model.DallE2 ? "" : $"\t\tQuality = {quality.value},\n") +
                 $"\t\tWidth = {resolutionValue[0]},\n" +
                 $"\t\tHeight = {resolutionValue[1]},\n" +
-                (modelValue == Model.DallE2 ? "" : $"\t\tStyle = {generationStyle.value},\n") +
-                "";
+                (modelValue == Model.DallE2 ? "" : $"\t\tStyle = {generationStyle.value},\n");
             return code;
         }
 

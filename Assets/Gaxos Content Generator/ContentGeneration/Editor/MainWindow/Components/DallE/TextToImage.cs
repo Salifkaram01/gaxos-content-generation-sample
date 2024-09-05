@@ -20,19 +20,20 @@ namespace ContentGeneration.Editor.MainWindow.Components.DallE
             }
         }
 
-        TextField code => this.Q<TextField>("code");
-        DallEParametersElement dallEParametersElement => this.Q<DallEParametersElement>("dallEParametersElement");
-        GenerationOptionsElement generationOptionsElement => this.Q<GenerationOptionsElement>("generationOptions");
+        TextToImageParameters parameters => this.Q<TextToImageParameters>("parameters");
+
         VisualElement requestSent => this.Q<VisualElement>("requestSent");
         VisualElement requestFailed => this.Q<VisualElement>("requestFailed");
         VisualElement sendingRequest => this.Q<VisualElement>("sendingRequest");
         Button generateButton => this.Q<Button>("generateButton");
 
+        TextField code => this.Q<TextField>("code");
+
         public TextToImage()
         {
-            dallEParametersElement.OnCodeChanged += RefreshCode;
-            generationOptionsElement.OnCodeChanged += RefreshCode;
-
+            parameters.OnCodeHasChanged = RefreshCode;
+            parameters.generationOptionsElement.OnCodeHasChanged = RefreshCode;
+            
             requestSent.style.display = DisplayStyle.None;
             requestFailed.style.display = DisplayStyle.None;
             sendingRequest.style.display = DisplayStyle.None;
@@ -44,7 +45,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.DallE
                 requestSent.style.display = DisplayStyle.None;
                 requestFailed.style.display = DisplayStyle.None;
 
-                if (!dallEParametersElement.Valid())
+                if (!parameters.Valid())
                 {
                     return;
                 }
@@ -53,20 +54,11 @@ namespace ContentGeneration.Editor.MainWindow.Components.DallE
                 sendingRequest.style.display = DisplayStyle.Flex;
 
 
-                var parameters = new DallETextToImageParameters
-                {
-                    Prompt = null,
-                    Model = Model.DallE2,
-                    N = 0,
-                    Quality = null,
-                    Width = 0,
-                    Height = 0,
-                    Style = null
-                };
-                dallEParametersElement.ApplyParameters(parameters);
+                var dallETextToImageParameters = new DallETextToImageParameters();
+                parameters.ApplyParameters(dallETextToImageParameters);
                 ContentGenerationApi.Instance.RequestDallETextToImageGeneration(
-                    parameters,
-                    generationOptionsElement.GetGenerationOptions(), data: new
+                    dallETextToImageParameters,
+                    parameters.generationOptionsElement.GetGenerationOptions(), data: new
                     {
                         player_id = ContentGenerationStore.editorPlayerId
                     }).ContinueInMainThreadWith(
@@ -96,9 +88,9 @@ namespace ContentGeneration.Editor.MainWindow.Components.DallE
                 "var requestId = await ContentGenerationApi.Instance.RequestDallETextToImageGeneration\n" +
                 "\t(new DallETextToImageParameters\n" +
                 "\t{\n" +
-                dallEParametersElement?.GetCode() +
+                parameters?.GetCode() +
                 "\t},\n" +
-                $"{generationOptionsElement?.GetCode()}" +
+                $"{parameters.generationOptionsElement?.GetCode()}" +
                 ")";
         }
     }

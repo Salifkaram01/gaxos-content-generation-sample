@@ -40,7 +40,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.Gaxos
         
         public GaxosParametersElement()
         {
-            prompt.OnChanged += _=> RefreshCode();
+            prompt.OnChanged += _=> CodeHasChanged();
             var improvePromptButton = this.Q<Button>("improvePromptButton");
             improvePromptButton.clicked += () =>
             {
@@ -68,29 +68,29 @@ namespace ContentGeneration.Editor.MainWindow.Components.Gaxos
                     });
             };
             
-            negativePrompt.OnChanged += _  => RefreshCode();
-            checkpoint.RegisterValueChangedCallback(_=> RefreshCode());
-            nSamples.RegisterValueChangedCallback(_=> RefreshCode());
+            negativePrompt.OnChanged += _  => CodeHasChanged();
+            checkpoint.RegisterValueChangedCallback(_=> CodeHasChanged());
+            nSamples.RegisterValueChangedCallback(_=> CodeHasChanged());
             sendSeed.RegisterValueChangedCallback(evt =>
             {
                 seed.SetEnabled(evt.newValue);
-                RefreshCode();
+                CodeHasChanged();
             });
             seed.SetEnabled(sendSeed.value);
-            seed.RegisterValueChangedCallback(_=> RefreshCode());
-            steps.RegisterValueChangedCallback(_=> RefreshCode());
-            cfg.RegisterValueChangedCallback(_=> RefreshCode());
-            sampler.RegisterValueChangedCallback(_=> RefreshCode());
-            scheduler.RegisterValueChangedCallback(_=> RefreshCode());
-            denoise.RegisterValueChangedCallback(_=> RefreshCode());
-            loras.RegisterValueChangedCallback(_=> RefreshCode());
+            seed.RegisterValueChangedCallback(_=> CodeHasChanged());
+            steps.RegisterValueChangedCallback(_=> CodeHasChanged());
+            cfg.RegisterValueChangedCallback(_=> CodeHasChanged());
+            sampler.RegisterValueChangedCallback(_=> CodeHasChanged());
+            scheduler.RegisterValueChangedCallback(_=> CodeHasChanged());
+            denoise.RegisterValueChangedCallback(_=> CodeHasChanged());
+            loras.RegisterValueChangedCallback(_=> CodeHasChanged());
         }
 
-        public event Action OnCodeChanged;
+        public Action OnCodeHasChanged;
 
-        void RefreshCode()
+        void CodeHasChanged()
         {
-            OnCodeChanged?.Invoke();
+            OnCodeHasChanged?.Invoke();
         }
 
         public bool Valid()
@@ -104,7 +104,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.Gaxos
 
         public string GetCode()
         {
-            var code =
+            return 
                 $"\t\tPrompt = \"{prompt.value}\",\n" +
                 (!string.IsNullOrWhiteSpace(negativePrompt.value) ? $"\t\tNegativePrompt = \"{negativePrompt.value}\",\n" : null) +
                 (!string.IsNullOrWhiteSpace(checkpoint.value) ? $"\t\tCheckpoint = \"{checkpoint.value}\",\n" : null) +
@@ -114,11 +114,10 @@ namespace ContentGeneration.Editor.MainWindow.Components.Gaxos
                 $"\t\tCfg = {cfg.value},\n" +
                 (!string.IsNullOrWhiteSpace(sampler.value) ? $"\t\tSamplerName = \"{sampler.value}\",\n" : null) +
                 (!string.IsNullOrWhiteSpace(scheduler.value) ? $"\t\tScheduler = \"{scheduler.value}\",\n" : null) +
-                $"\t\tDenoise = {denoise.value}" +
+                $"\t\tDenoise = {denoise.value},\n" +
                 (!string.IsNullOrWhiteSpace(loras.value) ? 
-                    $"\t\tLoras = [{string.Join(", ", loras.value.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(i => $"\"{i.Trim()}\""))}]" : null) +
-                "";
-            return code;
+                    $"\t\tLoras = [{string.Join(", ", loras.value.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(i => $"\"{i.Trim()}\""))}]\n" : null)
+                ;
         }
 
         public void ApplyParameters(GaxosParameters gaxosParameters)

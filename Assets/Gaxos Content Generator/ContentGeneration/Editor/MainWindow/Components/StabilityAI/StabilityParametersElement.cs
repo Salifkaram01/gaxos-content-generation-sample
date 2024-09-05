@@ -32,7 +32,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
         SliderInt steps => this.Q<SliderInt>("steps");
         DropdownField stylePreset => this.Q<DropdownField>("stylePreset");
 
-        public event Action OnCodeChanged;
+        public Action OnCodeHasChanged;
 
         public StabilityParametersElement()
         {
@@ -41,27 +41,27 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
                 promptsContainer.Add(new TextPrompt(sender =>
                     {
                         promptsContainer.Remove(sender);
-                        OnCodeChanged.Invoke();
+                        OnCodeHasChanged?.Invoke();
                     },
-                    OnCodeChanged.Invoke));
-                OnCodeChanged.Invoke();
+                    () => OnCodeHasChanged?.Invoke()));
+                OnCodeHasChanged.Invoke();
             };
             promptRequired.style.visibility = Visibility.Hidden;
 
-            cfgScale.RegisterValueChangedCallback(_ => OnCodeChanged?.Invoke());
-            clipGuidancePreset.RegisterValueChangedCallback(_ => OnCodeChanged?.Invoke());
+            cfgScale.RegisterValueChangedCallback(_ => OnCodeHasChanged?.Invoke());
+            clipGuidancePreset.RegisterValueChangedCallback(_ => OnCodeHasChanged?.Invoke());
 
-            sampler.RegisterValueChangedCallback(_ => OnCodeChanged?.Invoke());
+            sampler.RegisterValueChangedCallback(_ => OnCodeHasChanged?.Invoke());
             sendSampler.RegisterValueChangedCallback(evt =>
             {
                 sampler.SetEnabled(evt.newValue);
-                OnCodeChanged?.Invoke();
+                OnCodeHasChanged?.Invoke();
             });
             sampler.SetEnabled(sendSampler.value);
 
-            samples.RegisterValueChangedCallback(_ => OnCodeChanged?.Invoke());
-            seed.RegisterValueChangedCallback(_ => OnCodeChanged?.Invoke());
-            steps.RegisterValueChangedCallback(_ => OnCodeChanged?.Invoke());
+            samples.RegisterValueChangedCallback(_ => OnCodeHasChanged?.Invoke());
+            seed.RegisterValueChangedCallback(_ => OnCodeHasChanged?.Invoke());
+            steps.RegisterValueChangedCallback(_ => OnCodeHasChanged?.Invoke());
             stylePreset.choices.AddRange(new[]
             {
                 "<None>",
@@ -84,7 +84,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
                 "tile-texture"
             });
             stylePreset.value = stylePreset.choices[0];
-            stylePreset.RegisterValueChangedCallback(_ => OnCodeChanged?.Invoke());
+            stylePreset.RegisterValueChangedCallback(_ => OnCodeHasChanged?.Invoke());
         }
 
         TextPrompt[] prompts
