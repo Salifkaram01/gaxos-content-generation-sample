@@ -5,7 +5,7 @@ using UnityEngine.UIElements;
 
 namespace ContentGeneration.Editor.MainWindow.Components.Gaxos
 {
-    public class TextToImageParameters : VisualElementComponent
+    public class TextToImageParameters : VisualElementComponent, IParameters<GaxosTextToImageParameters>
     {
         public new class UxmlFactory : UxmlFactory<TextToImageParameters, UxmlTraits>
         {
@@ -23,7 +23,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.Gaxos
         SliderInt height => this.Q<SliderInt>("height");
 
         GaxosParametersElement gaxosParametersElement => this.Q<GaxosParametersElement>("gaxosParametersElement");
-        public GenerationOptionsElement generationOptionsElement => this.Q<GenerationOptionsElement>("generationOptions");
+        public GenerationOptionsElement generationOptions => this.Q<GenerationOptionsElement>("generationOptions");
 
         public TextToImageParameters()
         {
@@ -33,7 +33,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.Gaxos
             CodeHasChanged();
         }
 
-        public Action OnCodeHasChanged;
+        public Action OnCodeHasChanged { get; set; }
         void CodeHasChanged()
         {
             OnCodeHasChanged?.Invoke();

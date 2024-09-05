@@ -5,7 +5,7 @@ using UnityEngine.UIElements;
 
 namespace ContentGeneration.Editor.MainWindow.Components.DallE
 {
-    public class TextToImageParameters : VisualElementComponent
+    public class TextToImageParameters : VisualElementComponent, IParameters<DallETextToImageParameters>
     {
         public new class UxmlFactory : UxmlFactory<TextToImageParameters, UxmlTraits>
         {
@@ -20,16 +20,15 @@ namespace ContentGeneration.Editor.MainWindow.Components.DallE
         }
 
         DallEParametersElement dallEParametersElement => this.Q<DallEParametersElement>("dallEParametersElement");
-        public GenerationOptionsElement generationOptionsElement => this.Q<GenerationOptionsElement>("generationOptions");
+        public GenerationOptionsElement generationOptions => this.Q<GenerationOptionsElement>("generationOptions");
 
         public TextToImageParameters()
         {
             dallEParametersElement.OnCodeChanged += CodeHasChanged;
-            generationOptionsElement.OnCodeHasChanged = CodeHasChanged;
             CodeHasChanged();
         }
 
-        public Action OnCodeHasChanged;
+        public Action OnCodeHasChanged { get; set; }
         void CodeHasChanged()
         {
             OnCodeHasChanged?.Invoke();

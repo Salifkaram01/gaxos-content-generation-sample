@@ -3,7 +3,8 @@
     <Style src="./TextToImage.uss" />
     <ui:VisualElement class="container-spaced">
         <ContentGeneration.Editor.MainWindow.Components.DallE.TextToImageParameters name="parameters" />
-        <ui:Button name="generateButton" text="Generate" class="generateButton" />
+        
+        <ui:Button name="generate" text="Generate" class="generateButton" />
         <ui:VisualElement>
             <ui:VisualElement name="sendingRequest">
                 <ui:Label text="Sending request" />

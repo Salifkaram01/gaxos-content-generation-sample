@@ -6,7 +6,7 @@ using UnityEngine.UIElements;
 
 namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
 {
-    public class TextToImageParameters : VisualElementComponent
+    public class TextToImageParameters : VisualElementComponent, IParameters<StabilityTextToImageParameters>
     {
         public new class UxmlFactory : UxmlFactory<TextToImageParameters, UxmlTraits>
         {
@@ -190,7 +190,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
             CodeHasChanged();
         }
 
-        public Action OnCodeHasChanged;
+        public Action OnCodeHasChanged { get; set; }
         void CodeHasChanged()
         {
             OnCodeHasChanged?.Invoke();
