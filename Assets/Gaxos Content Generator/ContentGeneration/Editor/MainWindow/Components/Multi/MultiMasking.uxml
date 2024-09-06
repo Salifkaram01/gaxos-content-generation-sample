@@ -19,6 +19,25 @@
         <ui:Label name="promptRequired" text="Prompt is required" class="error-label" style="visibility: hidden;" />
         <ui:Button name="improvePromptButton" text="Improve prompt" tooltip="Enhance your initial description using AI to achieve more precise and detailed results.  Usage: Useful if you want to refine your original request for better images" />
 
+        <ui:ScrollView class="advancedScrollView">
+            <ContentGeneration.Editor.MainWindow.Components.SubWindow
+                Sub-Window-Name="Gaxos Labs AI"
+                Foldable="true"
+                class="subSubWindow">
+                <ContentGeneration.Editor.MainWindow.Components.Gaxos.MaskingParameters
+                    HidePrompt="true"
+                    name="gaxosParameters" />
+            </ContentGeneration.Editor.MainWindow.Components.SubWindow>
+            <ContentGeneration.Editor.MainWindow.Components.SubWindow
+                Sub-Window-Name="Stability AI"
+                Foldable="true"
+                class="subSubWindow">
+                <ContentGeneration.Editor.MainWindow.Components.StabilityAI.MaskingParameters
+                    HidePrompt="true"
+                    name="stabilityAiParameters" />
+            </ContentGeneration.Editor.MainWindow.Components.SubWindow>
+        </ui:ScrollView>
+        
         <ui:Button name="generateButton" text="Generate" class="generateButton" />
         <ui:VisualElement>
             <ui:VisualElement name="sendingRequest">

@@ -41,7 +41,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
 
         public ImageToImage()
         {
-            stabilityParameters.OnCodeHasChanged = RefreshCode;
+            stabilityParameters.CodeHasChanged = RefreshCode;
             generationOptions.OnCodeHasChanged = RefreshCode;
 
             imageStrength.RegisterValueChangedCallback(_ => RefreshCode());

@@ -13,9 +13,17 @@ namespace ContentGeneration.Editor.MainWindow.Components.Gaxos
 
         public new class UxmlTraits : VisualElement.UxmlTraits
         {
+            readonly UxmlBoolAttributeDescription _hidePrompt = new() { name = "HidePrompt" };
             public override IEnumerable<UxmlChildElementDescription> uxmlChildElementsDescription
             {
                 get { yield break; }
+            }
+
+            public override void Init(VisualElement ve, IUxmlAttributes bag, CreationContext cc)
+            {
+                base.Init(ve, bag, cc);
+                var element = (TextToImageParameters)ve;
+                element.hidePrompt = _hidePrompt.GetValueFromBag(bag, cc);
             }
         }
 
@@ -25,6 +33,12 @@ namespace ContentGeneration.Editor.MainWindow.Components.Gaxos
         GaxosParametersElement gaxosParametersElement => this.Q<GaxosParametersElement>("gaxosParametersElement");
         public GenerationOptionsElement generationOptions => this.Q<GenerationOptionsElement>("generationOptions");
 
+        public bool hidePrompt
+        {
+            get => gaxosParametersElement.hidePrompt;
+            set => gaxosParametersElement.hidePrompt = value;
+        }
+
         public TextToImageParameters()
         {
             gaxosParametersElement.OnCodeHasChanged = CodeHasChanged;
@@ -33,10 +47,11 @@ namespace ContentGeneration.Editor.MainWindow.Components.Gaxos
             CodeHasChanged();
         }
 
-        public Action OnCodeHasChanged { get; set; }
+        public Action codeHasChanged { get; set; }
+
         void CodeHasChanged()
         {
-            OnCodeHasChanged?.Invoke();
+            codeHasChanged?.Invoke();
         }
 
         public bool Valid()

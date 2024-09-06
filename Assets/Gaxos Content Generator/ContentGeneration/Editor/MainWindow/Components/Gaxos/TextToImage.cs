@@ -21,6 +21,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.Gaxos
         }
 
         protected override string apiMethodName => nameof(ContentGenerationApi.RequestGaxosTextToImageGeneration);
+
         protected override Task RequestToApi(GaxosTextToImageParameters parameters, GenerationOptions generationOptions,
             object data)
         {

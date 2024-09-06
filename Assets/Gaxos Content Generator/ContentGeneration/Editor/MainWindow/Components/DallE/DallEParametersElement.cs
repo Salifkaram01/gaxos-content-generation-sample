@@ -30,9 +30,27 @@ namespace ContentGeneration.Editor.MainWindow.Components.DallE
         VisualElement promptRequired => this.Q<VisualElement>("promptRequired");
         Button improvePromptButton => this.Q<Button>("improvePromptButton");
 
+        bool _hidePrompt;
+
+        public bool hidePrompt
+        {
+            get => _hidePrompt;
+            set
+            {
+                _hidePrompt = value;
+                prompt.style.display =
+                    improvePromptButton.style.display =
+                        value ? DisplayStyle.None : DisplayStyle.Flex;
+                if (value)
+                {
+                    promptRequired.style.display = DisplayStyle.None;
+                }
+            }
+        }
+
         public DallEParametersElement()
         {
-            prompt.OnChanged += _=> RefreshCode();
+            prompt.OnChanged += _ => RefreshCode();
             improvePromptButton.clicked += () =>
             {
                 if (string.IsNullOrEmpty(prompt.value))
@@ -109,6 +127,9 @@ namespace ContentGeneration.Editor.MainWindow.Components.DallE
 
         public bool Valid()
         {
+            if (hidePrompt)
+                return true;
+
             var thereArePrompts = !string.IsNullOrEmpty(prompt.value);
 
             promptRequired.style.visibility = thereArePrompts ? Visibility.Hidden : Visibility.Visible;

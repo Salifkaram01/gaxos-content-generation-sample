@@ -13,25 +13,39 @@ namespace ContentGeneration.Editor.MainWindow.Components.DallE
 
         public new class UxmlTraits : VisualElement.UxmlTraits
         {
+            readonly UxmlBoolAttributeDescription _hidePrompt = new() { name = "HidePrompt" };
             public override IEnumerable<UxmlChildElementDescription> uxmlChildElementsDescription
             {
                 get { yield break; }
+            }
+
+            public override void Init(VisualElement ve, IUxmlAttributes bag, CreationContext cc)
+            {
+                base.Init(ve, bag, cc);
+                var element = (TextToImageParameters)ve;
+                element.hidePrompt = _hidePrompt.GetValueFromBag(bag, cc);
             }
         }
 
         DallEParametersElement dallEParametersElement => this.Q<DallEParametersElement>("dallEParametersElement");
         public GenerationOptionsElement generationOptions => this.Q<GenerationOptionsElement>("generationOptions");
 
+        public bool hidePrompt
+        {
+            get => dallEParametersElement.hidePrompt;
+            set => dallEParametersElement.hidePrompt = value;
+        }
+        
         public TextToImageParameters()
         {
             dallEParametersElement.OnCodeChanged += CodeHasChanged;
             CodeHasChanged();
         }
 
-        public Action OnCodeHasChanged { get; set; }
+        public Action codeHasChanged { get; set; }
         void CodeHasChanged()
         {
-            OnCodeHasChanged?.Invoke();
+            codeHasChanged?.Invoke();
         }
 
         public bool Valid()

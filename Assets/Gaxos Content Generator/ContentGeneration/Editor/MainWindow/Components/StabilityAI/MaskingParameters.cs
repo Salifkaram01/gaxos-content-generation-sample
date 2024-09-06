@@ -14,9 +14,17 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
 
         public new class UxmlTraits : VisualElement.UxmlTraits
         {
+            readonly UxmlBoolAttributeDescription _hidePrompt = new() { name = "HidePrompt" };
             public override IEnumerable<UxmlChildElementDescription> uxmlChildElementsDescription
             {
                 get { yield break; }
+            }
+
+            public override void Init(VisualElement ve, IUxmlAttributes bag, CreationContext cc)
+            {
+                base.Init(ve, bag, cc);
+                var element = (MaskingParameters)ve;
+                element.hidePrompt = _hidePrompt.GetValueFromBag(bag, cc);
             }
         }
         
@@ -29,9 +37,15 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
         StabilityParametersElement stabilityParameters => this.Q<StabilityParametersElement>("stabilityParameters");
         public GenerationOptionsElement generationOptions => this.Q<GenerationOptionsElement>("generationOptions");
 
+        public bool hidePrompt
+        {
+            get => stabilityParameters.hidePrompt;
+            set => stabilityParameters.hidePrompt = value;
+        }
+        
         public MaskingParameters()
         {
-            stabilityParameters.OnCodeHasChanged = CodeHasChanged;
+            stabilityParameters.CodeHasChanged = CodeHasChanged;
             
             var engines = new[]
             {
@@ -67,10 +81,10 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
             CodeHasChanged();
         }
         
-        public Action OnCodeHasChanged { get; set; }
+        public Action codeHasChanged { get; set; }
         void CodeHasChanged()
         {
-            OnCodeHasChanged?.Invoke();
+            codeHasChanged?.Invoke();
         }
 
         public bool Valid()

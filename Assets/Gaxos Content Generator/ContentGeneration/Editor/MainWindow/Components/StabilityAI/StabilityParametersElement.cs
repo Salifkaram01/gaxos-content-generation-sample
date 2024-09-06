@@ -32,7 +32,22 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
         SliderInt steps => this.Q<SliderInt>("steps");
         DropdownField stylePreset => this.Q<DropdownField>("stylePreset");
 
-        public Action OnCodeHasChanged;
+        bool _hidePrompt;
+        public bool hidePrompt
+        {
+            get => _hidePrompt;
+            set
+            {
+                _hidePrompt = value;
+                promptsContainer.style.display = value ? DisplayStyle.None : DisplayStyle.Flex;
+                if (value)
+                {
+                    promptRequired.style.display = DisplayStyle.None;
+                }
+            }
+        }
+        
+        public Action CodeHasChanged;
 
         public StabilityParametersElement()
         {
@@ -41,27 +56,27 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
                 promptsContainer.Add(new TextPrompt(sender =>
                     {
                         promptsContainer.Remove(sender);
-                        OnCodeHasChanged?.Invoke();
+                        CodeHasChanged?.Invoke();
                     },
-                    () => OnCodeHasChanged?.Invoke()));
-                OnCodeHasChanged.Invoke();
+                    () => CodeHasChanged?.Invoke()));
+                CodeHasChanged.Invoke();
             };
             promptRequired.style.visibility = Visibility.Hidden;
 
-            cfgScale.RegisterValueChangedCallback(_ => OnCodeHasChanged?.Invoke());
-            clipGuidancePreset.RegisterValueChangedCallback(_ => OnCodeHasChanged?.Invoke());
+            cfgScale.RegisterValueChangedCallback(_ => CodeHasChanged?.Invoke());
+            clipGuidancePreset.RegisterValueChangedCallback(_ => CodeHasChanged?.Invoke());
 
-            sampler.RegisterValueChangedCallback(_ => OnCodeHasChanged?.Invoke());
+            sampler.RegisterValueChangedCallback(_ => CodeHasChanged?.Invoke());
             sendSampler.RegisterValueChangedCallback(evt =>
             {
                 sampler.SetEnabled(evt.newValue);
-                OnCodeHasChanged?.Invoke();
+                CodeHasChanged?.Invoke();
             });
             sampler.SetEnabled(sendSampler.value);
 
-            samples.RegisterValueChangedCallback(_ => OnCodeHasChanged?.Invoke());
-            seed.RegisterValueChangedCallback(_ => OnCodeHasChanged?.Invoke());
-            steps.RegisterValueChangedCallback(_ => OnCodeHasChanged?.Invoke());
+            samples.RegisterValueChangedCallback(_ => CodeHasChanged?.Invoke());
+            seed.RegisterValueChangedCallback(_ => CodeHasChanged?.Invoke());
+            steps.RegisterValueChangedCallback(_ => CodeHasChanged?.Invoke());
             stylePreset.choices.AddRange(new[]
             {
                 "<None>",
@@ -84,7 +99,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
                 "tile-texture"
             });
             stylePreset.value = stylePreset.choices[0];
-            stylePreset.RegisterValueChangedCallback(_ => OnCodeHasChanged?.Invoke());
+            stylePreset.RegisterValueChangedCallback(_ => CodeHasChanged?.Invoke());
         }
 
         TextPrompt[] prompts
@@ -97,6 +112,11 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
 
         public bool Valid()
         {
+            if (hidePrompt)
+            {
+                return true;
+            }
+            
             var thereArePrompts = prompts.Length > 0 &&
                                   prompts.Any(p => !string.IsNullOrEmpty(p.prompt.Text));
 

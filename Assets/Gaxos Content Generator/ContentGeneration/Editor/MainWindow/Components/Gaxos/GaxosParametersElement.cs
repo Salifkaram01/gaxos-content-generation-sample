@@ -23,6 +23,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.Gaxos
         }
 
         PromptInput prompt => this.Q<PromptInput>("prompt");
+        Button improvePromptButton => this.Q<Button>("improvePromptButton");
         VisualElement promptRequired => this.Q<VisualElement>("promptRequired");
         PromptInput negativePrompt => this.Q<PromptInput>("negativePrompt");
 
@@ -38,10 +39,26 @@ namespace ContentGeneration.Editor.MainWindow.Components.Gaxos
         
         TextField loras => this.Q<TextField>("loras");
         
+        bool _hidePrompt;
+        public bool hidePrompt
+        {
+            get => _hidePrompt;
+            set
+            {
+                _hidePrompt = value;
+                prompt.style.display =
+                    improvePromptButton.style.display =
+                        value ? DisplayStyle.None : DisplayStyle.Flex;
+                if (value)
+                {
+                    promptRequired.style.display = DisplayStyle.None;
+                }
+            }
+        }
+
         public GaxosParametersElement()
         {
             prompt.OnChanged += _=> CodeHasChanged();
-            var improvePromptButton = this.Q<Button>("improvePromptButton");
             improvePromptButton.clicked += () =>
             {
                 if (string.IsNullOrEmpty(prompt.value))
@@ -95,6 +112,9 @@ namespace ContentGeneration.Editor.MainWindow.Components.Gaxos
 
         public bool Valid()
         {
+            if (hidePrompt)
+                return true;
+            
             var thereArePrompts = !string.IsNullOrEmpty(prompt.value);
 
             promptRequired.style.visibility = thereArePrompts ? Visibility.Hidden : Visibility.Visible;

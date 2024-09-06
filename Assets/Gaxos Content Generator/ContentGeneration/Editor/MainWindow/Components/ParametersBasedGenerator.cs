@@ -10,7 +10,7 @@ namespace ContentGeneration.Editor.MainWindow.Components
     public interface IParameters<T>
     {
         GenerationOptionsElement generationOptions { get; }
-        Action OnCodeHasChanged { set; }
+        Action codeHasChanged { set; }
         bool Valid();
         void ApplyParameters(T parameters);
         string GetCode();
@@ -30,7 +30,7 @@ namespace ContentGeneration.Editor.MainWindow.Components
 
         protected ParametersBasedGenerator()
         {
-            parameters.OnCodeHasChanged = RefreshCode;
+            parameters.codeHasChanged = RefreshCode;
             parameters.generationOptions.OnCodeHasChanged = RefreshCode;
 
             sendingRequest.style.display = DisplayStyle.None;
