@@ -15,6 +15,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.Gaxos
         public new class UxmlTraits : VisualElement.UxmlTraits
         {
             readonly UxmlBoolAttributeDescription _hidePrompt = new() { name = "HidePrompt" };
+
             public override IEnumerable<UxmlChildElementDescription> uxmlChildElementsDescription
             {
                 get { yield break; }
@@ -27,13 +28,21 @@ namespace ContentGeneration.Editor.MainWindow.Components.Gaxos
                 element.hidePrompt = _hidePrompt.GetValueFromBag(bag, cc);
             }
         }
-        
+
         public bool hidePrompt
         {
             get => gaxosParametersElement.hidePrompt;
-            set => gaxosParametersElement.hidePrompt = value;
+            set
+            {
+                gaxosParametersElement.hidePrompt = value;
+                mask.style.display = value ? DisplayStyle.None : DisplayStyle.Flex;
+                if (!value)
+                {
+                    maskRequired.style.display = DisplayStyle.None;
+                }
+            }
         }
-        
+
         GaxosParametersElement gaxosParametersElement => this.Q<GaxosParametersElement>("gaxosParametersElement");
         public GenerationOptionsElement generationOptions => this.Q<GenerationOptionsElement>("generationOptions");
         ImageSelection mask => this.Q<ImageSelection>("mask");
@@ -45,8 +54,9 @@ namespace ContentGeneration.Editor.MainWindow.Components.Gaxos
             maskRequired.style.visibility = Visibility.Hidden;
             CodeHasChanged();
         }
-        
+
         public Action codeHasChanged { get; set; }
+
         void CodeHasChanged()
         {
             codeHasChanged?.Invoke();
@@ -59,6 +69,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.Gaxos
             {
                 return false;
             }
+
             if (mask.image == null)
             {
                 maskRequired.style.visibility = Visibility.Visible;

@@ -160,6 +160,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
                     if (!button.enabledSelf)
                         return;
 
+                    button.AddToClassList("disabled");
                     button.SetEnabled(false);
                     if (request.Generator == Generator.MeshyTextToMesh)
                     {
@@ -172,6 +173,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
                                 Debug.LogException(t.Exception!.InnerException);
                             }
 
+                            button.RemoveFromClassList("disabled");
                             button.SetEnabled(true);
                         });
                     }
@@ -189,6 +191,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
                                     GeneratedImageElement.SaveImageToProject(t.Result);
                                 }
 
+                                button.RemoveFromClassList("disabled");
                                 button.SetEnabled(true);
                             });
                     }

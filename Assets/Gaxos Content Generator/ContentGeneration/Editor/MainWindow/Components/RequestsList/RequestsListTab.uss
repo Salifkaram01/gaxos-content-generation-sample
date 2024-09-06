@@ -140,3 +140,7 @@
     -unity-background-image-tint-color: #f34802;
     background-image: url('./failed.png');
 }
+
+.downloadElement .disabled {
+    -unity-background-image-tint-color: #414141;
+}

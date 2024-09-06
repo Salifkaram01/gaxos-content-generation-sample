@@ -15,6 +15,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
         public new class UxmlTraits : VisualElement.UxmlTraits
         {
             readonly UxmlBoolAttributeDescription _hidePrompt = new() { name = "HidePrompt" };
+
             public override IEnumerable<UxmlChildElementDescription> uxmlChildElementsDescription
             {
                 get { yield break; }
@@ -27,7 +28,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
                 element.hidePrompt = _hidePrompt.GetValueFromBag(bag, cc);
             }
         }
-        
+
         DropdownField engine => this.Q<DropdownField>("engine");
         ImageSelection image => this.Q<ImageSelection>("image");
         Label imageRequired => this.Q<Label>("imageRequired");
@@ -40,13 +41,24 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
         public bool hidePrompt
         {
             get => stabilityParameters.hidePrompt;
-            set => stabilityParameters.hidePrompt = value;
+            set
+            {
+                stabilityParameters.hidePrompt = value;
+                image.style.display =
+                    maskSource.style.display =
+                        mask.style.display = value ? DisplayStyle.None : DisplayStyle.Flex;
+                if (!value)
+                {
+                    imageRequired.style.display =
+                        maskRequired.style.display = DisplayStyle.None;
+                }
+            }
         }
-        
+
         public MaskingParameters()
         {
             stabilityParameters.CodeHasChanged = CodeHasChanged;
-            
+
             var engines = new[]
             {
                 "esrgan-v1-x2plus",
@@ -80,8 +92,9 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
 
             CodeHasChanged();
         }
-        
+
         public Action codeHasChanged { get; set; }
+
         void CodeHasChanged()
         {
             codeHasChanged?.Invoke();
@@ -117,7 +130,8 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
             var maskSourceValue = (MaskSource)maskSource.value;
             stabilityMaskedImageParameters.EngineId = engine.value;
             stabilityMaskedImageParameters.InitImage = (Texture2D)image.image;
-            stabilityMaskedImageParameters.MaskImage = maskSourceValue == MaskSource.InitImageAlpha ? null : (Texture2D)mask.image;
+            stabilityMaskedImageParameters.MaskImage =
+                maskSourceValue == MaskSource.InitImageAlpha ? null : (Texture2D)mask.image;
             stabilityMaskedImageParameters.MaskSource = maskSourceValue;
             stabilityParameters.ApplyParameters(stabilityMaskedImageParameters);
         }
