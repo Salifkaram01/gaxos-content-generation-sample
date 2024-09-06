@@ -28,7 +28,7 @@ namespace ContentGeneration.Editor.MainWindow.Components
         VisualElement requestSent => this.Q<VisualElement>("requestSent");
         VisualElement requestFailed => this.Q<VisualElement>("requestFailed");
 
-        public ParametersBasedGenerator()
+        protected ParametersBasedGenerator()
         {
             parameters.OnCodeHasChanged = RefreshCode;
             parameters.generationOptions.OnCodeHasChanged = RefreshCode;
@@ -81,13 +81,14 @@ namespace ContentGeneration.Editor.MainWindow.Components
             RefreshCode();
         }
 
-        protected abstract Task RequestToApi(TU parameters, GenerationOptions getGenerationOptions, object data);
+        protected abstract Task RequestToApi(TU parameters, GenerationOptions generationOptions, object data);
 
+        protected abstract string apiMethodName { get; }
         void RefreshCode()
         {
             code.value =
-                "var requestId = await ContentGenerationApi.Instance.RequestTextToImageGeneration\n" +
-                "\t(new StabilityTextToImageParameters\n" +
+                $"var requestId = await ContentGenerationApi.Instance.{apiMethodName}\n" +
+                $"\t(new {typeof(TU).Name}\n" +
                 "\t{\n" +
                 parameters.GetCode() +
                 "\t},\n" +
