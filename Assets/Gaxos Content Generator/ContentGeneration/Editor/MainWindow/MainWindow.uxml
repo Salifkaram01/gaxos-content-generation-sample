@@ -55,5 +55,6 @@
                 <ContentGeneration.Editor.MainWindow.Components.Configuration />
             </ui:VisualElement>
         </ui:VisualElement>
+        <ui:Label class="version" text="v1.1" />
     </ui:VisualElement>
 </ui:UXML>
