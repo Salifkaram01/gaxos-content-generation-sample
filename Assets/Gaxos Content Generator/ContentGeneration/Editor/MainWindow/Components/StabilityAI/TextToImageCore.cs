@@ -6,9 +6,9 @@ using UnityEngine.UIElements;
 
 namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
 {
-    public class TextToImage : ParametersBasedGenerator<TextToImageParameters, StabilityTextToImageParameters>
+    public class TextToImageCore : ParametersBasedGenerator<TextToImageCoreParameters, StabilityCoreTextToImageParameters>
     {
-        public new class UxmlFactory : UxmlFactory<TextToImage, UxmlTraits>
+        public new class UxmlFactory : UxmlFactory<TextToImageCore, UxmlTraits>
         {
         }
 
@@ -20,11 +20,11 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
             }
         }
 
-        protected override string apiMethodName => nameof(ContentGenerationApi.RequestStabilityTextToImageGeneration);
-        protected override Task RequestToApi(StabilityTextToImageParameters parameters,
+        protected override string apiMethodName => nameof(ContentGenerationApi.RequestStabilityCoreTextToImageGeneration);
+        protected override Task RequestToApi(StabilityCoreTextToImageParameters parameters,
             GenerationOptions generationOptions, object data)
         {
-            return ContentGenerationApi.Instance.RequestStabilityTextToImageGeneration(
+            return ContentGenerationApi.Instance.RequestStabilityCoreTextToImageGeneration(
                 parameters,
                 generationOptions,
                 data: data);
