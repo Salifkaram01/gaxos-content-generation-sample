@@ -37,6 +37,7 @@
     -unity-background-scale-mode: scale-to-fit;
     background-position: left;
     background-position-x: 19px;
+    background-size: 27px;
 }
 
 #headerBar {

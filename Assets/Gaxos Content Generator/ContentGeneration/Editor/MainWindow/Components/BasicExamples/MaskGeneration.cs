@@ -7,9 +7,9 @@ using UnityEngine.UIElements;
 
 namespace ContentGeneration.Editor.MainWindow.Components.BasicExamples
 {
-    public class ImageToImageTab : VisualElementComponent
+    public class MaskGeneration : VisualElementComponent
     {
-        public new class UxmlFactory : UxmlFactory<ImageToImageTab, UxmlTraits>
+        public new class UxmlFactory : UxmlFactory<MaskGeneration, UxmlTraits>
         {
         }
 
@@ -20,8 +20,8 @@ namespace ContentGeneration.Editor.MainWindow.Components.BasicExamples
                 get { yield break; }
             }
         }
-
-        public ImageToImageTab()
+        
+        public MaskGeneration()
         {
             var codeTextField = this.Q<TextField>("code");
 
@@ -31,13 +31,13 @@ namespace ContentGeneration.Editor.MainWindow.Components.BasicExamples
                 RefreshCode(codeTextField, value);
             };
             RefreshCode(codeTextField, prompt.value);
-        
+
             var promptRequired = this.Q<Label>("promptRequiredLabel");
             promptRequired.style.visibility = Visibility.Hidden;
 
-            var image = this.Q<ImageSelection>("image");
-            var imageRequired = this.Q<Label>("imageRequiredLabel");
-            imageRequired.style.visibility = Visibility.Hidden;
+            var maskImage = this.Q<ImageSelection>("mask");
+            var maskImageRequired = this.Q<Label>("maskImageRequiredLabel");
+            maskImageRequired.style.visibility = Visibility.Hidden;
 
             var generateButton = this.Q<Button>("generateButton");
             var sendingRequest = this.Q<VisualElement>("sendingRequest");
@@ -53,17 +53,17 @@ namespace ContentGeneration.Editor.MainWindow.Components.BasicExamples
                     return;
                 }
 
-                if (image.image == null)
+                if (maskImage.image == null)
                 {
-                    imageRequired.style.visibility = Visibility.Visible;
+                    maskImageRequired.style.visibility = Visibility.Visible;
                     return;
                 }
 
                 generateButton.SetEnabled(false);
                 sendingRequest.style.display = DisplayStyle.Flex;
 
-                ContentGenerationApi.Instance.RequestStabilityImageToImageGeneration
-                (new StabilityImageToImageParameters
+                ContentGenerationApi.Instance.RequestStabilityMaskedImageGeneration
+                (new StabilityMaskedImageParameters
                 {
                     TextPrompts = new[]
                     {
@@ -73,7 +73,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.BasicExamples
                             Weight = 1,
                         }
                     },
-                    InitImage = (Texture2D)image.image
+                    InitImage = (Texture2D)maskImage.image
                 }, data: new
                 {
                     player_id = ContentGenerationStore.editorPlayerId
@@ -89,7 +89,6 @@ namespace ContentGeneration.Editor.MainWindow.Components.BasicExamples
                             else
                             {
                                 prompt.value = null;
-                                image.image = null;
                                 requestSent.style.display = DisplayStyle.Flex;
                             }
 
@@ -108,8 +107,8 @@ namespace ContentGeneration.Editor.MainWindow.Components.BasicExamples
         void RefreshCode(TextField codeTextField, string promptText)
         {
             codeTextField.value =
-                "var requestId = await ContentGenerationApi.Instance.RequestImageToImageGeneration\n" +
-                "\t(new StabilityImageToImageParameters\n" +
+                "var requestId = await ContentGenerationApi.Instance.RequestMaskedImageGeneration\n" +
+                "\t(new StabilityMaskedImageParameters\n" +
                 "\t{\n" +
                 "\t\tTextPrompts = new[]\n" +
                 "\t\t{\n" +
@@ -118,7 +117,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.BasicExamples
                 $"\t\t\t\tText = \"{promptText}\",\n" +
                 "\t\t\t\tWeight = 1,\n" +
                 "\t\t\t},\n" +
-                "\t\t\tInitImage = <Texture2D object>\n" +
+                "\t\t\tMaskImage = <Texture2D object>\n" +
                 "\t\t}\n" +
                 "\t})";
         }

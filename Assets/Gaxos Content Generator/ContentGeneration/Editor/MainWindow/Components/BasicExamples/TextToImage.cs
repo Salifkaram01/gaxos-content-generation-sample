@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using ContentGeneration.Helpers;
 using ContentGeneration.Models.Stability;
@@ -7,9 +6,9 @@ using UnityEngine.UIElements;
 
 namespace ContentGeneration.Editor.MainWindow.Components.BasicExamples
 {
-    public class MaskGenerationTab : VisualElementComponent
+    public class TextToImage : VisualElementComponent
     {
-        public new class UxmlFactory : UxmlFactory<MaskGenerationTab, UxmlTraits>
+        public new class UxmlFactory : UxmlFactory<TextToImage, UxmlTraits>
         {
         }
 
@@ -20,50 +19,48 @@ namespace ContentGeneration.Editor.MainWindow.Components.BasicExamples
                 get { yield break; }
             }
         }
+
         
-        public MaskGenerationTab()
+        public TextToImage()
         {
             var codeTextField = this.Q<TextField>("code");
 
             var prompt = this.Q<PromptInput>("promptInput");
-            prompt.OnChanged += value =>
+            prompt.OnChanged += t =>
             {
-                RefreshCode(codeTextField, value);
+                RefreshCode(codeTextField, t);
             };
             RefreshCode(codeTextField, prompt.value);
 
             var promptRequired = this.Q<Label>("promptRequiredLabel");
             promptRequired.style.visibility = Visibility.Hidden;
 
-            var maskImage = this.Q<ImageSelection>("mask");
-            var maskImageRequired = this.Q<Label>("maskImageRequiredLabel");
-            maskImageRequired.style.visibility = Visibility.Hidden;
-
             var generateButton = this.Q<Button>("generateButton");
+
             var sendingRequest = this.Q<VisualElement>("sendingRequest");
+            sendingRequest.style.display = DisplayStyle.None;
             var requestSent = this.Q<VisualElement>("requestSent");
+            requestSent.style.display = DisplayStyle.None;
+            var requestFailed = this.Q<VisualElement>("requestFailed");
+            requestFailed.style.display = DisplayStyle.None;
+
             generateButton.RegisterCallback<ClickEvent>(_ =>
             {
                 if (!generateButton.enabledSelf) return;
 
                 requestSent.style.display = DisplayStyle.None;
+                requestFailed.style.display = DisplayStyle.None;
                 if (string.IsNullOrWhiteSpace(prompt.value))
                 {
                     promptRequired.style.visibility = Visibility.Visible;
                     return;
                 }
 
-                if (maskImage.image == null)
-                {
-                    maskImageRequired.style.visibility = Visibility.Visible;
-                    return;
-                }
-
                 generateButton.SetEnabled(false);
                 sendingRequest.style.display = DisplayStyle.Flex;
 
-                ContentGenerationApi.Instance.RequestStabilityMaskedImageGeneration
-                (new StabilityMaskedImageParameters
+                ContentGenerationApi.Instance.RequestStabilityTextToImageGeneration
+                (new StabilityTextToImageParameters
                 {
                     TextPrompts = new[]
                     {
@@ -73,42 +70,33 @@ namespace ContentGeneration.Editor.MainWindow.Components.BasicExamples
                             Weight = 1,
                         }
                     },
-                    InitImage = (Texture2D)maskImage.image
                 }, data: new
                 {
                     player_id = ContentGenerationStore.editorPlayerId
                 }).ContinueInMainThreadWith(
                     t =>
                     {
-                        try
+                        generateButton.SetEnabled(true);
+                        sendingRequest.style.display = DisplayStyle.None;
+                        if (t.IsFaulted)
                         {
-                            if (t.IsFaulted)
-                            {
-                                Debug.LogException(t.Exception);
-                            }
-                            else
-                            {
-                                prompt.value = null;
-                                requestSent.style.display = DisplayStyle.Flex;
-                            }
-
-                            generateButton.SetEnabled(true);
-                            sendingRequest.style.display = DisplayStyle.None;
+                            requestFailed.style.display = DisplayStyle.Flex;
+                            Debug.LogException(t.Exception);
                         }
-                        catch (Exception ex)
+                        else
                         {
-                            Debug.LogException(ex);
+                            prompt.value = null;
+                            requestSent.style.display = DisplayStyle.Flex;
                         }
                         ContentGenerationStore.Instance.RefreshRequestsAsync().Finally(() => ContentGenerationStore.Instance.RefreshStatsAsync().CatchAndLog());
                     });
             });
         }
-
         void RefreshCode(TextField codeTextField, string promptText)
         {
             codeTextField.value =
-                "var requestId = await ContentGenerationApi.Instance.RequestMaskedImageGeneration\n" +
-                "\t(new StabilityMaskedImageParameters\n" +
+                "var requestId = await ContentGenerationApi.Instance.RequestGeneration\n" +
+                "\t(new StabilityTextToImageParameters\n" +
                 "\t{\n" +
                 "\t\tTextPrompts = new[]\n" +
                 "\t\t{\n" +
@@ -116,8 +104,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.BasicExamples
                 "\t\t\t{\n" +
                 $"\t\t\t\tText = \"{promptText}\",\n" +
                 "\t\t\t\tWeight = 1,\n" +
-                "\t\t\t},\n" +
-                "\t\t\tMaskImage = <Texture2D object>\n" +
+                "\t\t\t}\n" +
                 "\t\t}\n" +
                 "\t})";
         }
