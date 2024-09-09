@@ -9,7 +9,6 @@
     <Style src="./MultiTextToImage.uss" />
     <ContentGeneration.Editor.MainWindow.Components.SubWindow
         Sub-Window-Name="Multiple Text To Image"
-        Sub-Window-Icon="Multiple Text To Image Icons"
         style="flex-grow: 1;">
         <ContentGeneration.Editor.MainWindow.Components.PromptInput name="prompt"
                                                                     tooltip="Provide a clear and detailed description of what you want the AI to generate as an image. Example: &quot;Describe objects, scenes, or concepts to guide the AI in generating the image.&quot;"
