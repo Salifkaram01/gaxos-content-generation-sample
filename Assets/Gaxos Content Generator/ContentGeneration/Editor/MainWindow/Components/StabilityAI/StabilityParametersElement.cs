@@ -32,21 +32,8 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
         SliderInt steps => this.Q<SliderInt>("steps");
         DropdownField stylePreset => this.Q<DropdownField>("stylePreset");
 
-        bool _hidePrompt;
-        public bool hidePrompt
-        {
-            get => _hidePrompt;
-            set
-            {
-                _hidePrompt = value;
-                promptsContainer.style.display = value ? DisplayStyle.None : DisplayStyle.Flex;
-                if (value)
-                {
-                    promptRequired.style.display = DisplayStyle.None;
-                }
-            }
-        }
-        
+        public bool hidePrompt { get; set; }
+
         public Action CodeHasChanged;
 
         public StabilityParametersElement()
