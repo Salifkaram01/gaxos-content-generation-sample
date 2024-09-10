@@ -5,7 +5,7 @@ namespace ContentGeneration.Models
 {
     public enum Generator
     {
-        StabilityTextToImage, StabilityTextToImageCore, StabilityTextToImageUltra,
+        StabilityTextToImage, StabilityTextToImageCore, StabilityTextToImageUltra, StabilityDiffusion3,
         StabilityImageToImage, StabilityMasking,
         DallETextToImage, DallEInpainting,
         MeshyTextToMesh, MeshyTextToTexture,
@@ -21,6 +21,7 @@ namespace ContentGeneration.Models
                 Generator.StabilityTextToImage => "stability-text-to-image",
                 Generator.StabilityTextToImageCore => "stability-text-to-image-core",
                 Generator.StabilityTextToImageUltra => "stability-text-to-image-ultra",
+                Generator.StabilityDiffusion3 => "stability-diffusion-3",
                 Generator.StabilityImageToImage => "stability-image-to-image",
                 Generator.StabilityMasking => "stability-masking",
                 Generator.DallETextToImage => "dall-e-text-to-image",
@@ -39,15 +40,6 @@ namespace ContentGeneration.Models
 
         protected override string AdaptString(string str)
         {
-            if (str == "comfy-text-to-image")
-            {
-                str = "gaxos-text-to-image";
-            }
-
-            if (str == "comfy-masking")
-            {
-                str = "gaxos-masking";
-            }
             return base.AdaptString(str).Replace("-", "");
         }
     }

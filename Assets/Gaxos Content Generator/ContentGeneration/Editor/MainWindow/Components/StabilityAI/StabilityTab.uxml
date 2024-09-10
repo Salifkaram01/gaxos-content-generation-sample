@@ -2,19 +2,22 @@
     <Style src="../Common.uss" />
     <ContentGeneration.Editor.MainWindow.Components.SubWindow Sub-Window-Name="Stability AI" style="flex-grow: 1;">
         <ContentGeneration.Editor.MainWindow.Components.TabsContainer>
-            <ContentGeneration.Editor.MainWindow.Components.Tab Tab-Name="Core - Text To Image" name="textToImage">
+            <ContentGeneration.Editor.MainWindow.Components.Tab Tab-Name="Core - Text To Image">
                 <ContentGeneration.Editor.MainWindow.Components.StabilityAI.TextToImageCore style="flex-direction: column-reverse;" />
             </ContentGeneration.Editor.MainWindow.Components.Tab>
-            <ContentGeneration.Editor.MainWindow.Components.Tab Tab-Name="Ultra - Text To Image" name="textToImage">
+            <ContentGeneration.Editor.MainWindow.Components.Tab Tab-Name="Ultra - Text To Image">
                 <ContentGeneration.Editor.MainWindow.Components.StabilityAI.TextToImageUltra style="flex-direction: column-reverse;" />
             </ContentGeneration.Editor.MainWindow.Components.Tab>
-            <ContentGeneration.Editor.MainWindow.Components.Tab Tab-Name="Legacy - Text To Image" name="textToImage">
+            <ContentGeneration.Editor.MainWindow.Components.Tab Tab-Name="StableDiffusion3">
+                <ContentGeneration.Editor.MainWindow.Components.StabilityAI.StableDiffusion3 style="flex-direction: column-reverse;" />
+            </ContentGeneration.Editor.MainWindow.Components.Tab>
+            <ContentGeneration.Editor.MainWindow.Components.Tab Tab-Name="Legacy - Text To Image">
                 <ContentGeneration.Editor.MainWindow.Components.StabilityAI.TextToImage style="flex-direction: column-reverse;" />
             </ContentGeneration.Editor.MainWindow.Components.Tab>
-            <ContentGeneration.Editor.MainWindow.Components.Tab Tab-Name="Image To Image" name="imageToImage">
+            <ContentGeneration.Editor.MainWindow.Components.Tab Tab-Name="Legacy - Image To Image">
                 <ContentGeneration.Editor.MainWindow.Components.StabilityAI.ImageToImage />
             </ContentGeneration.Editor.MainWindow.Components.Tab>
-            <ContentGeneration.Editor.MainWindow.Components.Tab name="masking" Tab-Name="Masking">
+            <ContentGeneration.Editor.MainWindow.Components.Tab Tab-Name="Legacy - Masking">
                 <ContentGeneration.Editor.MainWindow.Components.StabilityAI.Masking />
             </ContentGeneration.Editor.MainWindow.Components.Tab>
         </ContentGeneration.Editor.MainWindow.Components.TabsContainer>

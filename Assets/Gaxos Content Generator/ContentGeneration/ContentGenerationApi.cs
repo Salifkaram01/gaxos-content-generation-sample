@@ -230,6 +230,16 @@ namespace ContentGeneration
                 generatorParameters, options, data);
         }
 
+        public Task<string> RequestStabilityStableDiffusion3Generation(
+            StabilityStableDiffusion3Parameters generatorParameters,
+            GenerationOptions options = GenerationOptions.None,
+            object data = null)
+        {
+            return RequestGeneration(
+                Generator.StabilityDiffusion3,
+                generatorParameters, options, data);
+        }
+
         public Task<string> RequestStabilityImageToImageGeneration(
             StabilityImageToImageParameters generatorParameters,
             GenerationOptions options = GenerationOptions.None,
