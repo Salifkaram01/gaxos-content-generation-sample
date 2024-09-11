@@ -174,12 +174,13 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
 
                     button.AddToClassList("disabled");
                     button.SetEnabled(false);
-                    if (request.Generator is Generator.MeshyTextToMesh or Generator.StabilityStableFast3d)
+                    var downloadRequest = ContentGenerationStore.Instance.Requests[index];
+                    if (downloadRequest.Generator is Generator.MeshyTextToMesh or Generator.StabilityStableFast3d)
                     {
-                        (request.Generator == Generator.MeshyTextToMesh
+                        (downloadRequest.Generator == Generator.MeshyTextToMesh
                                 ? meshyTextToMeshRequestedItem
                                 : stabilityFast3dRequestedItem)
-                            .Save(request)
+                            .Save(downloadRequest)
                             .ContinueInMainThreadWith(t =>
                             {
                                 if (t.IsFaulted)
@@ -193,7 +194,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
                     }
                     else
                     {
-                        SaveImagesAsync(request.Assets.Select(i => i.URL).ToArray())
+                        SaveImagesAsync(downloadRequest.Assets.Select(i => i.URL).ToArray())
                             .ContinueInMainThreadWith(t =>
                             {
                                 if (t.IsFaulted)
