@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using ContentGeneration.Editor.MainWindow.Components.Meshy;
+using ContentGeneration.Editor.MainWindow.Components.StabilityAI;
 using ContentGeneration.Helpers;
 using ContentGeneration.Models;
 using Unity.EditorCoroutines.Editor;
@@ -39,9 +40,13 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
         IRequestedItem meshyTextToTextureRequestedItem =>
             this.Q<MeshyTextToTextureRequestedItem>("meshyTextToTextureRequestedItem");
 
+        IRequestedItem stabilityFast3dRequestedItem =>
+            this.Q<StabilityFast3dRequestedItem>("stabilityFast3dRequestedItem");
+
         IRequestedItem[] allRequestedItems => new[]
         {
-            defaultRequestedItem, meshyTextToMeshRequestedItem, meshyTextToTextureRequestedItem
+            defaultRequestedItem, meshyTextToMeshRequestedItem, meshyTextToTextureRequestedItem,
+            stabilityFast3dRequestedItem
         };
 
         string _selectedId;
@@ -127,7 +132,8 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
             listView.columns["creditsCost"].bindCell = (element, index) =>
             {
                 var label = (element as Label)!;
-                label.text = ContentGenerationStore.Instance.Requests[index].DeductedCredits.ToString(CultureInfo.InvariantCulture);
+                label.text = ContentGenerationStore.Instance.Requests[index].DeductedCredits
+                    .ToString(CultureInfo.InvariantCulture);
             };
             listView.columns["status"].bindCell = (element, index) =>
             {
@@ -151,11 +157,12 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
 
                 button.RemoveFromClassList("generated");
                 button.RemoveFromClassList("failed");
-                button.RemoveFromClassList("meshy");
+                button.RemoveFromClassList("mdel3d");
                 var request = ContentGenerationStore.Instance.Requests[index];
-                if (request.Generator == Generator.MeshyTextToMesh && request.Status == RequestStatus.Generated)
+                if (request.Status == RequestStatus.Generated &&
+                    request.Generator is Generator.MeshyTextToMesh or Generator.StabilityStableFast3d)
                 {
-                    button.AddToClassList("meshy");
+                    button.AddToClassList("mdel3d");
                 }
 
                 button.AddToClassList(request.Status.ToString().ToLower());
@@ -167,20 +174,22 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
 
                     button.AddToClassList("disabled");
                     button.SetEnabled(false);
-                    if (request.Generator == Generator.MeshyTextToMesh)
+                    if (request.Generator is Generator.MeshyTextToMesh or Generator.StabilityStableFast3d)
                     {
-                        MeshyModelHelper.Save(
-                            request.GeneratorResult["refine_result"] ?? request.GeneratorResult
-                        ).ContinueInMainThreadWith(t =>
-                        {
-                            if (t.IsFaulted)
+                        (request.Generator == Generator.MeshyTextToMesh
+                                ? meshyTextToMeshRequestedItem
+                                : stabilityFast3dRequestedItem)
+                            .Save(request)
+                            .ContinueInMainThreadWith(t =>
                             {
-                                Debug.LogException(t.Exception!.InnerException);
-                            }
+                                if (t.IsFaulted)
+                                {
+                                    Debug.LogException(t.Exception!.InnerException);
+                                }
 
-                            button.RemoveFromClassList("disabled");
-                            button.SetEnabled(true);
-                        });
+                                button.RemoveFromClassList("disabled");
+                                button.SetEnabled(true);
+                            });
                     }
                     else
                     {
@@ -240,6 +249,10 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
                     {
                         meshyTextToTextureRequestedItem.value = request;
                     }
+                    else if (request.Generator == Generator.StabilityStableFast3d)
+                    {
+                        stabilityFast3dRequestedItem.value = request;
+                    }
                     else
                     {
                         defaultRequestedItem.value = request;
@@ -285,6 +298,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
                     tcs.SetException(e);
                 }
             }
+
             tcs.SetResult(textures);
         }
 

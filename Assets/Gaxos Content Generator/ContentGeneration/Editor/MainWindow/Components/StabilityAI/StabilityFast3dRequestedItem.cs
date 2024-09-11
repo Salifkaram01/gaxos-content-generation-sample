@@ -1,18 +1,21 @@
 using System;
 using System.Collections.Generic;
-using System.Threading;
+using System.IO;
 using System.Threading.Tasks;
+using ContentGeneration.Editor.MainWindow.Components.Meshy;
 using ContentGeneration.Editor.MainWindow.Components.RequestsList;
 using ContentGeneration.Helpers;
 using ContentGeneration.Models;
+using Newtonsoft.Json.Linq;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace ContentGeneration.Editor.MainWindow.Components.Meshy
+namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
 {
-    public class MeshyTextToTextureRequestedItem : VisualElementComponent, IRequestedItem
+    public class StabilityFast3dRequestedItem : VisualElementComponent, IRequestedItem
     {
-        public new class UxmlFactory : UxmlFactory<MeshyTextToTextureRequestedItem, UxmlTraits>
+        public new class UxmlFactory : UxmlFactory<StabilityFast3dRequestedItem, UxmlTraits>
         {
         }
 
@@ -28,12 +31,9 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
 
         RequestedItemCommon requestedItemCommon => this.Q<RequestedItemCommon>();
 
-        public MeshyTextToTextureRequestedItem()
+        public StabilityFast3dRequestedItem()
         {
-            requestedItemCommon.OnDeleted += () =>
-            {
-                OnDeleted?.Invoke();
-            };
+            requestedItemCommon.OnDeleted += () => { OnDeleted?.Invoke(); };
             requestedItemCommon.OnRefreshed += v => value = v;
 
             saveButton.SetEnabled(false);
@@ -43,7 +43,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
                     return;
 
                 saveButton.SetEnabled(false);
-                MeshyModelHelper.Save(value.GeneratorResult).ContinueInMainThreadWith(t =>
+                Save(value).ContinueInMainThreadWith(t =>
                 {
                     if (t.IsFaulted)
                     {
@@ -55,7 +55,6 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
             };
         }
 
-        CancellationTokenSource _cancellationTokenSource;
         public event Action OnDeleted;
 
         public Request value
@@ -65,19 +64,29 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
             {
                 requestedItemCommon.value = value;
 
-                _cancellationTokenSource?.Cancel();
-
                 if (value == null)
                     return;
 
-                saveButton.SetEnabled(value.Status == RequestStatus.Generated);
-                _cancellationTokenSource = new CancellationTokenSource();
+                saveButton.SetEnabled(value.GeneratorResult != null);
             }
         }
-    
-        public Task Save(Request request)
+
+        public async Task Save(Request request)
         {
-            throw new NotImplementedException();
+            var path = EditorUtility.SaveFilePanel(
+                "Save model location",
+                "Assets/",
+                "", "gltf");
+
+            if (path.Length == 0) return;
+
+            var model = await MeshyModelHelper.DownloadFileAsync(request.Assets[0].URL);
+            await File.WriteAllBytesAsync(path, model);
+
+            if (path.StartsWith(Application.dataPath))
+            {
+                AssetDatabase.Refresh();
+            }
         }
     }
 }

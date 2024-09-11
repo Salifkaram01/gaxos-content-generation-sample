@@ -136,7 +136,7 @@
     background-image: url('./generated.png');
 }
 
-.downloadElement .meshy {
+.downloadElement .mdel3d {
     -unity-background-image-tint-color: #ffffff;
     background-image: url('./generated.png');
 }
