@@ -11,6 +11,9 @@
             <ContentGeneration.Editor.MainWindow.Components.Tab Tab-Name="StableDiffusion3">
                 <ContentGeneration.Editor.MainWindow.Components.StabilityAI.StableDiffusion3 style="flex-direction: column-reverse;" />
             </ContentGeneration.Editor.MainWindow.Components.Tab>
+            <ContentGeneration.Editor.MainWindow.Components.Tab Tab-Name="Fast 3D">
+                <ContentGeneration.Editor.MainWindow.Components.StabilityAI.StableFast3d style="flex-direction: column-reverse;" />
+            </ContentGeneration.Editor.MainWindow.Components.Tab>
             <ContentGeneration.Editor.MainWindow.Components.Tab Tab-Name="Legacy - Text To Image">
                 <ContentGeneration.Editor.MainWindow.Components.StabilityAI.TextToImage style="flex-direction: column-reverse;" />
             </ContentGeneration.Editor.MainWindow.Components.Tab>

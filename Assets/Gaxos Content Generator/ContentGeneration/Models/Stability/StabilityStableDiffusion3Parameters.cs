@@ -34,8 +34,8 @@ namespace ContentGeneration.Models.Stability
         }
         [JsonProperty("strength")] public float Strength;
 
-        [JsonProperty("aspect_ratio"), JsonConverter(typeof(AspectRatioConverter))] 
-        public AspectRatio AspectRatio = AspectRatio._1_1;
+        [JsonProperty("aspect_ratio", DefaultValueHandling = DefaultValueHandling.Ignore), JsonConverter(typeof(AspectRatioConverter))] 
+        public AspectRatio? AspectRatio;
         
         [JsonProperty("model"), JsonConverter(typeof(ModelConverter))]
         public Model Model = Model.Sd3Large;

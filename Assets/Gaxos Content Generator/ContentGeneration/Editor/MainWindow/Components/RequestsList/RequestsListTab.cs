@@ -124,6 +124,11 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
                     (element as Label)!.text = "---";
                 }
             };
+            listView.columns["creditsCost"].bindCell = (element, index) =>
+            {
+                var label = (element as Label)!;
+                label.text = ContentGenerationStore.Instance.Requests[index].DeductedCredits.ToString(CultureInfo.InvariantCulture);
+            };
             listView.columns["status"].bindCell = (element, index) =>
             {
                 var label = (element as Label)!;

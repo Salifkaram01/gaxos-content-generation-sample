@@ -91,7 +91,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
                     });
             };
 
-            // imageRequired.style.visibility = Visibility.Hidden;
+            imageRequired.style.visibility = Visibility.Hidden;
             void ModeHasChanged(Mode value)
             {
                 image.style.display = strength.style.display = imageRequired.style.display =
@@ -153,9 +153,12 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
                 stabilityParameters.Image = (Texture2D)image.image;
                 stabilityParameters.Strength = strength.value;
             }
+            else
+            {
+                stabilityParameters.AspectRatio = (AspectRatio)aspectRatio.value;
+            }
 
             stabilityParameters.Model = (Model)model.value;
-            stabilityParameters.AspectRatio = (AspectRatio)aspectRatio.value;
             stabilityParameters.NegativePrompt = negativePrompt.value;
             stabilityParameters.Seed = (ulong)seed.value;
             stabilityParameters.OutputFormat = (OutputFormat)outputFormat.value;

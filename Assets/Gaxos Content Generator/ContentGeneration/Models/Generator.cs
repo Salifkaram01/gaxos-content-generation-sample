@@ -5,7 +5,8 @@ namespace ContentGeneration.Models
 {
     public enum Generator
     {
-        StabilityTextToImage, StabilityTextToImageCore, StabilityTextToImageUltra, StabilityDiffusion3,
+        StabilityTextToImage, StabilityTextToImageCore, StabilityTextToImageUltra, StabilityDiffusion3, 
+        StabilityStableFast3d,
         StabilityImageToImage, StabilityMasking,
         DallETextToImage, DallEInpainting,
         MeshyTextToMesh, MeshyTextToTexture,
@@ -22,6 +23,7 @@ namespace ContentGeneration.Models
                 Generator.StabilityTextToImageCore => "stability-text-to-image-core",
                 Generator.StabilityTextToImageUltra => "stability-text-to-image-ultra",
                 Generator.StabilityDiffusion3 => "stability-diffusion-3",
+                Generator.StabilityStableFast3d => "stability-stable-fast-3d",
                 Generator.StabilityImageToImage => "stability-image-to-image",
                 Generator.StabilityMasking => "stability-masking",
                 Generator.DallETextToImage => "dall-e-text-to-image",

@@ -10,6 +10,7 @@
                 <ui:Column name="created" title="Created" width="186" />
                 <ui:Column name="completed" title="Completed" width="176" />
                 <ui:Column name="timeTaken" title="Time taken" width="129" />
+                <ui:Column name="creditsCost" title="Cost" width="86" />
                 <ui:Column name="status" title="Status" width="86" />
                 <ui:Column name="download" width="46" />
             </ui:Columns>

@@ -31,7 +31,10 @@ namespace ContentGeneration.Editor.MainWindow.Components
         protected ParametersBasedGenerator()
         {
             parameters.codeHasChanged = RefreshCode;
-            parameters.generationOptions.OnCodeHasChanged = RefreshCode;
+            if(parameters.generationOptions!=null)
+            {
+                parameters.generationOptions.OnCodeHasChanged = RefreshCode;
+            }
 
             sendingRequest.style.display = DisplayStyle.None;
             requestSent.style.display = DisplayStyle.None;
@@ -55,7 +58,7 @@ namespace ContentGeneration.Editor.MainWindow.Components
                 parameters.ApplyParameters(stabilityTextToImageParameters);
                 RequestToApi(
                     stabilityTextToImageParameters,
-                    parameters.generationOptions.GetGenerationOptions(), 
+                    parameters.generationOptions?.GetGenerationOptions(), 
                     data: new
                     {
                         player_id = ContentGenerationStore.editorPlayerId
@@ -92,7 +95,7 @@ namespace ContentGeneration.Editor.MainWindow.Components
                 "\t{\n" +
                 parameters.GetCode() +
                 "\t},\n" +
-                parameters.generationOptions.GetCode() +
+                parameters.generationOptions?.GetCode() +
                 ")";
         }
     }

@@ -240,6 +240,16 @@ namespace ContentGeneration
                 generatorParameters, options, data);
         }
 
+        public Task<string> RequestStabilityStableFast3dGeneration(
+            StabilityStableFast3d generatorParameters,
+            GenerationOptions options = GenerationOptions.None,
+            object data = null)
+        {
+            return RequestGeneration(
+                Generator.StabilityStableFast3d,
+                generatorParameters, options, data);
+        }
+
         public Task<string> RequestStabilityImageToImageGeneration(
             StabilityImageToImageParameters generatorParameters,
             GenerationOptions options = GenerationOptions.None,
