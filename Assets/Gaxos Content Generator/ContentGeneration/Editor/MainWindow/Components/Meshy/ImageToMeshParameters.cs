@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using ContentGeneration.Helpers;
 using ContentGeneration.Models.Meshy;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -34,7 +33,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
         Toggle enablePbr => this.Q<Toggle>("enablePbr");
         EnumField surfaceMode => this.Q<EnumField>("surfaceMode");
 
-        public GenerationOptionsElement generationOptions => this.Q<GenerationOptionsElement>("generationOptions");
+        public GenerationOptionsElement generationOptions => null;
 
         bool _hidePrompt;
         public bool hidePrompt { get; set; }

@@ -18,9 +18,6 @@
                       type="ContentGeneration.Models.Meshy.SurfaceMode, ContentGeneration" 
                       name="surfaceMode" 
                       tooltip="Describe your desired surface mode" />
-
-        <ContentGeneration.Editor.MainWindow.Components.GenerationOptionsElement name="generationOptions" 
-            AllowMakeTransparent="false" />
     </ui:VisualElement>
 
 </ui:UXML>
