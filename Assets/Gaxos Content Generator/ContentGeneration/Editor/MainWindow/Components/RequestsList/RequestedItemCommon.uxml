@@ -16,7 +16,7 @@
                 <ui:Label tabindex="-1" text="Generator:" parse-escape-sequences="true" display-tooltip-when-elided="true" style="margin-right: 7px;" />
                 <ui:Label tabindex="-1" text="&lt;generator&gt;" parse-escape-sequences="true" display-tooltip-when-elided="true" name="generator" style="color: rgb(0, 241, 255);" />
             </ui:VisualElement>
-            <ui:ScrollView mode="Horizontal" name="imagesContainer" style="min-height: 205px;" />
+            <ui:ScrollView mode="Horizontal" name="imagesContainer" />
             <ui:VisualElement name="childrenContainer" />
             <ui:VisualElement style="margin-bottom: 9px; flex-grow: 1;">
                 <ui:Label tabindex="-1" text="Generator Parameters:" parse-escape-sequences="true" display-tooltip-when-elided="true" />
