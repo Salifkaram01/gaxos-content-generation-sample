@@ -16,7 +16,7 @@ namespace Sample.Sword
             (new MeshyTextToMeshParameters
             {
                 Prompt = prompt,
-                ArtStyle = TextToMeshArtStyle.Cartoon,
+                ArtStyle = TextToMeshArtStyle.Pbr,
             }, data: new
             {
                 player_id = ProfileSettings.playerId,
