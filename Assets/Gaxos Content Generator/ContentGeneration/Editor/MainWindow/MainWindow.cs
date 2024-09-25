@@ -6,6 +6,7 @@ using ContentGeneration.Editor.MainWindow.Components.Gaxos;
 using ContentGeneration.Editor.MainWindow.Components.Meshy;
 using ContentGeneration.Editor.MainWindow.Components.Multi;
 using ContentGeneration.Editor.MainWindow.Components.RequestsList;
+using ContentGeneration.Editor.MainWindow.Components.FavoritesList;
 using ContentGeneration.Helpers;
 using ContentGeneration.Models;
 using UnityEditor;
@@ -39,6 +40,7 @@ namespace ContentGeneration.Editor.MainWindow
             var multiTextToImage = rootInstance.Q<MultiTextToImage>();
             var multiMasking = rootInstance.Q<MultiMasking>();
             var requestsList = rootInstance.Q<RequestsListTab>();
+            var favoritesList = rootInstance.Q<FavoritesListTab>();
             var basicGeneration = rootInstance.Q<BasicExamplesTab>();
             var configuration = rootInstance.Q<Configuration>();
 
@@ -84,6 +86,10 @@ namespace ContentGeneration.Editor.MainWindow
             rootInstance.Q<SubWindowToggle>("subWindowToggleRequestsList").OnToggled += (sender, v) =>
             {
                 ToggleSubWindow(sender, v, subWindowsContainer, requestsList);
+            };
+            rootInstance.Q<SubWindowToggle>("subWindowToggleFavoritesList").OnToggled += (sender, v) =>
+            {
+                ToggleSubWindow(sender, v, subWindowsContainer, favoritesList);
             };
             rootInstance.Q<SubWindowToggle>("subWindowToggleBasicExamples").OnToggled += (sender, v) =>
             {
