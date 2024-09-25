@@ -16,7 +16,7 @@ Gaxos Labs is a cutting-edge suite of AI tools designed to revolutionize game de
 
 ### 📚 **Documentation**
 
-- [Installation Guide](gaxoslabs.ai/documentation/getting-started)
+- [Installation Guide](https://gaxoslabs.ai/documentation/getting-started)
 
 ### 💬 **Community and Support**
 - **Discord**: Join our [Discord server](https://discord.com/invite/ZvKKeC7ruA) for real-time support, discussions, and feedback.
