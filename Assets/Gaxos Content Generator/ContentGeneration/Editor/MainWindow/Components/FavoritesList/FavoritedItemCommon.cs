@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using ContentGeneration.Helpers;
 using ContentGeneration.Models;
 using UnityEngine.UIElements;
 
@@ -64,34 +65,25 @@ namespace ContentGeneration.Editor.MainWindow.Components.FavoritesList
                 if (value == null)
                     return;
 
-                switch (value.Generator)
+                var generatorName = value.Generator.ToString();
+                if (generatorName.StartsWith("Stability"))
                 {
-                    case Generator.StabilityTextToImage:
-                        favoritedItem.subWindowName = "Stability AI Text To Image";
-                        favoritedItem.subWindowIcon = "Stability AI";
-                        break;
-                    case Generator.StabilityImageToImage:
-                        favoritedItem.subWindowName = "Stability AI Image To Image";
-                        favoritedItem.subWindowIcon = "Stability AI";
-                        break;
-                    case Generator.StabilityMasking:
-                        favoritedItem.subWindowName = "Stability AI Masking";
-                        favoritedItem.subWindowIcon = "Stability AI";
-                        break;
-                    case Generator.DallETextToImage:
-                        favoritedItem.subWindowName = "Dall-E Text To Image";
-                        favoritedItem.subWindowIcon = "Dall-E";
-                        break;
-                    case Generator.DallEInpainting:
-                        favoritedItem.subWindowName = "Dall-E Inpainting";
-                        favoritedItem.subWindowIcon = "Dall-E";
-                        break;
-                    case Generator.MeshyTextToMesh:
-                    default:
-                        favoritedItem.subWindowName = value.Generator.ToString();
-                        favoritedItem.subWindowIcon = null;
-                        break;
+                    favoritedItem.subWindowIcon = "Stability AI";
                 }
+                else if (generatorName.StartsWith("Meshy"))
+                {
+                    favoritedItem.subWindowIcon = "Meshy";
+                }
+                else if (generatorName.StartsWith("Gaxos"))
+                {
+                    favoritedItem.subWindowIcon = "Gaxos Labs AI";
+                }
+                else
+                {
+                    favoritedItem.subWindowIcon = null;
+                }
+                
+                favoritedItem.subWindowName = generatorName.CamelCaseToSpacesAndUpperCaseEachWord();
 
                 generator.text = value.Generator.ToString();
 

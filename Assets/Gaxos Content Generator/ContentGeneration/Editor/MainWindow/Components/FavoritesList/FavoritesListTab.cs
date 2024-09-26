@@ -109,6 +109,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.FavoritesList
 
                 var previousSelectId = _selectedId;
                 _favorites = t.Result;
+                listView.itemsSource = _favorites;
                 listView.RefreshItems();
                 listView.selectedIndex = -1;
                 if (previousSelectId != null)

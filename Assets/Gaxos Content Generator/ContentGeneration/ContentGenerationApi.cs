@@ -133,6 +133,11 @@ namespace ContentGeneration
             return await SendRequest<Request[]>(ApiMethod.Get, "request" + queryParametersStr);
         }
 
+        public async Task AddFavorite(string requestId)
+        {
+            await SendRequest(ApiMethod.Post, $"request/favorite/{requestId}");
+        }
+
         public async Task<Favorite[]> GetFavorites()
         {
             return await SendRequest<Favorite[]>(ApiMethod.Get, "request/favorite");

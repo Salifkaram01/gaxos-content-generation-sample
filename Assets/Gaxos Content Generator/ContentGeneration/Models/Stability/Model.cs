@@ -12,12 +12,12 @@ namespace ContentGeneration.Models.Stability
     {
         public override void WriteJson(JsonWriter writer, Model value, JsonSerializer serializer)
         {
-            writer.WriteValue(CamelCaseToDashes(value.ToString()));
+            writer.WriteValue(value.ToString().CamelCaseToDashes());
         }
 
         protected override string AdaptString(string str)
         {
-            return DashesToCamelCase(str);
+            return str.DashesToCamelCase();
         }
     }
 }

@@ -796,7 +796,7 @@ PlayerSettings:
   webGLMemoryGeometricGrowthCap: 96
   webGLPowerPreference: 2
   scriptingDefineSymbols:
-    Standalone: 
+    Standalone: USE_GAXOS_DEV_BACKEND
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend: {}
