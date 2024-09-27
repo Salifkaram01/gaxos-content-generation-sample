@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using ContentGeneration.Helpers;
 using ContentGeneration.Models;
+using Newtonsoft.Json.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -16,7 +17,7 @@ namespace ContentGeneration.Editor.MainWindow.Components
         string GetCode();
     }
     
-    public abstract class ParametersBasedGenerator<T, TU> : VisualElementComponent 
+    public abstract class ParametersBasedGenerator<T, TU> : VisualElementComponent, IGeneratorVisualElement 
         where T : VisualElement, IParameters<TU>
         where TU: new()
     {
@@ -98,5 +99,8 @@ namespace ContentGeneration.Editor.MainWindow.Components
                 parameters.generationOptions?.GetCode() +
                 ")";
         }
+
+        public abstract Generator generator { get; }
+        public abstract void Show(JObject generatorParameters);
     }
 }

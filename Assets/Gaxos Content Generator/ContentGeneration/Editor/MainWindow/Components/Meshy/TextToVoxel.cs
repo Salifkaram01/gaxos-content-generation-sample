@@ -2,11 +2,13 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using ContentGeneration.Models;
 using ContentGeneration.Models.Meshy;
+using Newtonsoft.Json.Linq;
 using UnityEngine.UIElements;
 
 namespace ContentGeneration.Editor.MainWindow.Components.Meshy
 {
-    public class TextToVoxel : ParametersBasedGenerator<TextToVoxelParameters, MeshyTextToVoxelParameters>
+    public class TextToVoxel : ParametersBasedGenerator<TextToVoxelParameters, MeshyTextToVoxelParameters>,
+        IGeneratorVisualElement
     {
         public new class UxmlFactory : UxmlFactory<TextToVoxel, UxmlTraits>
         {
@@ -28,6 +30,11 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
             return ContentGenerationApi.Instance.RequestMeshyTextToVoxelGeneration(
                 parameters,
                 generationOptions, data: data);
+        }
+
+        public override Generator generator => Generator.MeshyTextToVoxel;
+        public override void Show(JObject generatorParameters)
+        {
         }
     }
 }

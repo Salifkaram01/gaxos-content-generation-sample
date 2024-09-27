@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using ContentGeneration.Models;
 using ContentGeneration.Models.Stability;
+using Newtonsoft.Json.Linq;
 using UnityEngine.UIElements;
 
 namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
@@ -28,6 +29,11 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
                 parameters,
                 generationOptions,
                 data: data);
+        }
+
+        public override Generator generator => Generator.StabilityTextToImageCore;
+        public override void Show(JObject generatorParameters)
+        {
         }
     }
 }

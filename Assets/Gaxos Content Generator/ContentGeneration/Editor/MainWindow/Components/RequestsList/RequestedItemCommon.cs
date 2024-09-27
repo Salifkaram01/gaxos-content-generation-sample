@@ -73,6 +73,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
                     {
                         ContentGenerationStore.Instance.RefreshFavoritesAsync().Finally(() =>
                         {
+                            value = value;
                             refreshButton.SetEnabled(true);
                         });
                     });

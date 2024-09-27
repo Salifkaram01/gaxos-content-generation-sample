@@ -46,7 +46,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.FavoritesList
                         {
                             OnDeleted?.Invoke();
                         }
-                    
+
                         deleteButton.SetEnabled(true);
                     });
                 }
@@ -55,8 +55,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.FavoritesList
             {
                 if (applyFavorite.enabledSelf)
                 {
-                    applyFavorite.SetEnabled(false);
-                    applyFavorite.SetEnabled(true);
+                    MainWindow.instance.GoTo(value.Generator, value.GeneratorParameters);
                 }
             };
             generatorParameters.SetVerticalScrollerVisibility(ScrollerVisibility.Auto);
@@ -91,7 +90,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.FavoritesList
                 {
                     favoritedItem.subWindowIcon = null;
                 }
-                
+
                 favoritedItem.subWindowName = generatorName.CamelCaseToSpacesAndUpperCaseEachWord();
 
                 generator.text = value.Generator.ToString();
