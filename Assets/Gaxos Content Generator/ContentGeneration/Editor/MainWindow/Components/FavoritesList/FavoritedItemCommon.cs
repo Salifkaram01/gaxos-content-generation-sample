@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using ContentGeneration.Helpers;
 using ContentGeneration.Models;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace ContentGeneration.Editor.MainWindow.Components.FavoritesList
@@ -24,6 +25,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.FavoritesList
         Label generator => this.Q<Label>("generator");
         TextField generatorParameters => this.Q<TextField>("generatorParameters");
         Button deleteButton => this.Q<Button>("deleteButton");
+        Button applyFavorite => this.Q<Button>("applyFavorite");
 
         public override VisualElement contentContainer => this.Q<VisualElement>("childrenContainer");
 
@@ -34,20 +36,27 @@ namespace ContentGeneration.Editor.MainWindow.Components.FavoritesList
                 if (deleteButton.enabledSelf)
                 {
                     deleteButton.SetEnabled(false);
-                    // TODO:
-                    // ContentGenerationApi.Instance.DeleteFavorite(value.ID).ContinueInMainThreadWith(t =>
-                    // {
-                    //     if (t.IsFaulted)
-                    //     {
-                    //         Debug.LogException(t.Exception!.InnerException);
-                    //     }
-                    //     else
-                    //     {
-                    //         OnDeleted?.Invoke();
-                    //     }
-                    //
-                    //     deleteButton.SetEnabled(true);
-                    // });
+                    ContentGenerationApi.Instance.DeleteFavorite(value.ID).ContinueInMainThreadWith(t =>
+                    {
+                        if (t.IsFaulted)
+                        {
+                            Debug.LogException(t.Exception!.InnerException);
+                        }
+                        else
+                        {
+                            OnDeleted?.Invoke();
+                        }
+                    
+                        deleteButton.SetEnabled(true);
+                    });
+                }
+            };
+            applyFavorite.clicked += () =>
+            {
+                if (applyFavorite.enabledSelf)
+                {
+                    applyFavorite.SetEnabled(false);
+                    applyFavorite.SetEnabled(true);
                 }
             };
             generatorParameters.SetVerticalScrollerVisibility(ScrollerVisibility.Auto);

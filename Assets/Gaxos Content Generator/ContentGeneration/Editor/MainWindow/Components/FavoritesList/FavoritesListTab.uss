@@ -26,7 +26,7 @@
     border-top-right-radius: 10px;
 }
 
-#download .unity-multi-column-header__column__content {
+#delete .unity-multi-column-header__column__content {
     margin-right: 0;
     background-color: #3b3b3b;
 }
@@ -120,32 +120,10 @@
     color: #f34802;
 }
 
-.downloadElement {
-}
-
-.downloadElement Button {
+.deleteButton {
     border-width: 0;
     border-radius: 0;
     -unity-background-scale-mode: scale-to-fit;
     background-size: 25px;
-    background-image: url('./pending.png');
-}
-
-.downloadElement .generated {
-    -unity-background-image-tint-color: #07f302;
-    background-image: url('./generated.png');
-}
-
-.downloadElement .mdel3d {
-    -unity-background-image-tint-color: #ffffff;
-    background-image: url('./generated.png');
-}
-
-.downloadElement .failed {
-    -unity-background-image-tint-color: #f34802;
-    background-image: url('./failed.png');
-}
-
-.downloadElement .disabled {
-    -unity-background-image-tint-color: #414141;
+    background-image: url('./Favorite Erase.png');
 }

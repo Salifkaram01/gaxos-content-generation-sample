@@ -8,6 +8,7 @@
                 <ui:Column name="id" title="Id" width="126" />
                 <ui:Column name="generator" title="Generator" width="129" />
                 <ui:Column name="creditsCost" title="Cost" width="86" />
+                <ui:Column name="delete" width="46" />
             </ui:Columns>
         </ui:MultiColumnListView>
         <ContentGeneration.Editor.MainWindow.Components.FavoritesList.FavoritedItem name="defaultFavoritedItem" style="flex-grow: 0.5; min-height: 120px;" />

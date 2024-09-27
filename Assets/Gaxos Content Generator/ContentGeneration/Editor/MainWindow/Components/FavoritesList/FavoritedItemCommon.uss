@@ -15,4 +15,19 @@
 
 .row {
     margin-bottom: 10px;
+    flex-direction: row;
+    align-items: center;
+}
+
+#deleteButton {
+    width: 201px;
+    height: 30px;
+    border-radius: 15px;
+    font-size: 15px;
+}
+
+#applyFavorite {
+    -unity-background-image-tint-color: #29e8ed;
+    background-image: url('../../separator.png');
+    font-size: 15px;
 }

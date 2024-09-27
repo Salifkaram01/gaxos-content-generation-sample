@@ -71,7 +71,10 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
                     refreshButton.SetEnabled(false);
                     ContentGenerationApi.Instance.AddFavorite(value.ID).Finally(() =>
                     {
-                        refreshButton.SetEnabled(true);
+                        ContentGenerationStore.Instance.RefreshFavoritesAsync().Finally(() =>
+                        {
+                            refreshButton.SetEnabled(true);
+                        });
                     });
                 }
             };
@@ -131,6 +134,14 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
                 requestedItem.subWindowName = generatorName.CamelCaseToSpacesAndUpperCaseEachWord();
 
                 status.text = value.Status.ToString();
+                if (value.Status != RequestStatus.Generated || ContentGenerationStore.Instance.Favorites.Any(i => i.ID == value.ID))
+                {
+                    saveFavorite.style.visibility = Visibility.Hidden;
+                }
+                else
+                {
+                    saveFavorite.style.visibility = Visibility.Visible;
+                }
 
                 refreshButton.style.display =
                     value.Status == RequestStatus.Pending ? DisplayStyle.Flex : DisplayStyle.None;

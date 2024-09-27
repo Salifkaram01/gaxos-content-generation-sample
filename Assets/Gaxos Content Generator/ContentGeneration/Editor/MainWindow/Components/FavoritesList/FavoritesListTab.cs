@@ -33,7 +33,24 @@ namespace ContentGeneration.Editor.MainWindow.Components.FavoritesList
         {
             refreshButton.RegisterCallback<ClickEvent>(_ => { Refresh(); });
 
-            listView.itemsSource = _favorites;
+            ContentGenerationStore.Instance.OnFavoritesChanged += _ =>
+            {
+                var previousSelectId = _selectedId;
+                listView.RefreshItems();
+                listView.selectedIndex = -1;
+                if (previousSelectId != null)
+                {
+                    for (var i = 0; i < ContentGenerationStore.Instance.Favorites.Count; i++)
+                    {
+                        if (ContentGenerationStore.Instance.Favorites[i].ID == previousSelectId)
+                        {
+                            listView.selectedIndex = i;
+                            break;
+                        }
+                    }
+                }
+            };
+            listView.itemsSource = ContentGenerationStore.Instance.Favorites;
             if (!string.IsNullOrEmpty(Settings.instance.apiKey))
             {
                 Refresh();
@@ -61,14 +78,44 @@ namespace ContentGeneration.Editor.MainWindow.Components.FavoritesList
 
             listView.columnSortingChanged += Refresh;
             listView.columns["id"].bindCell = (element, index) =>
-                (element as Label)!.text = _favorites[index].ID.ToString();
+                (element as Label)!.text = ContentGenerationStore.Instance.Favorites[index].ID.ToString();
             listView.columns["generator"].bindCell = (element, index) =>
-                (element as Label)!.text = _favorites[index].Generator.ToString();
+                (element as Label)!.text = ContentGenerationStore.Instance.Favorites[index].Generator.ToString();
             listView.columns["creditsCost"].bindCell = (element, index) =>
             {
                 var label = (element as Label)!;
-                label.text = _favorites[index].DeductedCredits
+                label.text = ContentGenerationStore.Instance.Favorites[index].DeductedCredits
                     .ToString(CultureInfo.InvariantCulture);
+            };
+            listView.columns["delete"].bindCell = (element, index) =>
+            {
+                var button = element.Children().FirstOrDefault(c => c is Button) as Button;
+                if (button == null)
+                {
+                    button = new Button();
+                    button.AddToClassList("deleteButton");
+                    button.clicked += DeleteButtonClicked;
+                    element.Add(button);
+                }
+
+                void DeleteButtonClicked()
+                {
+                    if (!button.enabledSelf)
+                        return;
+
+                    button.SetEnabled(false);
+                    ContentGenerationApi.Instance.DeleteFavorite(ContentGenerationStore.Instance.Favorites[index].ID)
+                        .ContinueInMainThreadWith(t =>
+                        {
+                            button.SetEnabled(true);
+                            if (t.IsFaulted)
+                            {
+                                Debug.LogException(t.Exception);
+                            }
+
+                            ContentGenerationStore.Instance.RefreshFavoritesAsync().CatchAndLog();
+                        });
+                }
             };
 
             favoritedItem.OnDeleted += () =>
@@ -96,34 +143,9 @@ namespace ContentGeneration.Editor.MainWindow.Components.FavoritesList
             };
         }
 
-        Favorite[] _favorites;
         void Refresh()
         {
-            ContentGenerationApi.Instance.GetFavorites().ContinueInMainThreadWith(t =>
-            {
-                if (t.IsFaulted)
-                {
-                    Debug.LogException(t.Exception!.GetBaseException());
-                    return;
-                }
-
-                var previousSelectId = _selectedId;
-                _favorites = t.Result;
-                listView.itemsSource = _favorites;
-                listView.RefreshItems();
-                listView.selectedIndex = -1;
-                if (previousSelectId != null)
-                {
-                    for (var i = 0; i < _favorites.Length; i++)
-                    {
-                        if (_favorites[i].ID == previousSelectId)
-                        {
-                            listView.selectedIndex = i;
-                            break;
-                        }
-                    }
-                }
-            });
+            ContentGenerationStore.Instance.RefreshFavoritesAsync().CatchAndLog();
         }
     }
 }

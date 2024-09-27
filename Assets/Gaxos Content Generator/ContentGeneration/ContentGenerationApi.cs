@@ -142,6 +142,12 @@ namespace ContentGeneration
         {
             return await SendRequest<Favorite[]>(ApiMethod.Get, "request/favorite");
         }
+
+        public async Task DeleteFavorite(string requestId)
+        {
+            await SendRequest(ApiMethod.Delete, $"request/favorite/{requestId}");
+        }
+
         
         static string GetQueryParametersStr(QueryParameters queryParameters)
         {
