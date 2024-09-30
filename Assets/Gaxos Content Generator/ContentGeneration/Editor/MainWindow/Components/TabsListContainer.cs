@@ -53,18 +53,17 @@ namespace ContentGeneration.Editor.MainWindow.Components
                         {
                             list.choices.Add(t.tabName);
                         }
-                        if (MainWindow.instance.showGenerator.HasValue)
+                        if (MainWindow.instance.showFavorite != null)
                         {
                             var generatorVisualElements = t.Children().
                                 Where(i => i is IGeneratorVisualElement).Cast<IGeneratorVisualElement>();
                             foreach (var generatorVisualElement in generatorVisualElements)
                             {
-                                if (generatorVisualElement.generator == MainWindow.instance.showGenerator)
+                                if (generatorVisualElement.generator == MainWindow.instance.showFavorite?.Generator)
                                 {
                                     selectIndex = i;
-                                    generatorVisualElement.Show(MainWindow.instance.showGeneratorParameters);
-                                    MainWindow.instance.showGenerator = null;
-                                    MainWindow.instance.showGeneratorParameters = null;
+                                    generatorVisualElement.Show(MainWindow.instance.showFavorite);
+                                    MainWindow.instance.showFavorite = null;
                                 }
                             }
                         }

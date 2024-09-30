@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using ContentGeneration.Models;
 using ContentGeneration.Models.Stability;
-using Newtonsoft.Json.Linq;
 using UnityEngine.UIElements;
 
 namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
@@ -30,8 +29,5 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
         }
 
         public override Generator generator => Generator.StabilityMasking;
-        public override void Show(JObject generatorParameters)
-        {
-        }
     }
 }

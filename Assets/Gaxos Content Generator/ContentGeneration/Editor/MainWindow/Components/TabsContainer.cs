@@ -47,18 +47,17 @@ namespace ContentGeneration.Editor.MainWindow.Components
                             tabToggles.Add(tabToggle);
                             visualElement.style.display = DisplayStyle.None;
                         }
-                        if (MainWindow.instance.showGenerator.HasValue)
+                        if (MainWindow.instance.showFavorite != null)
                         {
                             var generatorVisualElements = t.Children().
                                 Where(i => i is IGeneratorVisualElement).Cast<IGeneratorVisualElement>();
                             foreach (var generatorVisualElement in generatorVisualElements)
                             {
-                                if (generatorVisualElement.generator == MainWindow.instance.showGenerator)
+                                if (generatorVisualElement.generator == MainWindow.instance.showFavorite?.Generator)
                                 {
                                     showRadioButton = createdTabs[t.tabName];
-                                    generatorVisualElement.Show(MainWindow.instance.showGeneratorParameters);
-                                    MainWindow.instance.showGenerator = null;
-                                    MainWindow.instance.showGeneratorParameters = null;
+                                    generatorVisualElement.Show(MainWindow.instance.showFavorite);
+                                    MainWindow.instance.showFavorite = null;
                                 }
                             }
                         }
@@ -67,7 +66,10 @@ namespace ContentGeneration.Editor.MainWindow.Components
 
                 if (showRadioButton != null)
                 {
-                    showRadioButton.value = true;
+                    foreach (var radioButton in createdTabs.Values)
+                    {
+                        radioButton.value = showRadioButton == radioButton;
+                    }
                 }
             });
         }

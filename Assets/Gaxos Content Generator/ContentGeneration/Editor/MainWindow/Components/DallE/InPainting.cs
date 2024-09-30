@@ -1,12 +1,13 @@
 using System.Collections.Generic;
 using ContentGeneration.Helpers;
+using ContentGeneration.Models;
 using ContentGeneration.Models.DallE;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace ContentGeneration.Editor.MainWindow.Components.DallE
 {
-    public class InPainting : VisualElementComponent
+    public class InPainting : VisualElementComponent, IGeneratorVisualElement
     {
         public new class UxmlFactory : UxmlFactory<InPainting, UxmlTraits>
         {
@@ -109,6 +110,16 @@ namespace ContentGeneration.Editor.MainWindow.Components.DallE
                 "\t},\n" +
                 $"{generationOptionsElement?.GetCode()}" +
                 ")";
+        }
+
+        public Generator generator => Generator.DallEInpainting;
+        public void Show(Favorite favorite)
+        {
+            var parameters = favorite.GeneratorParameters.ToObject<DallETextToImageParameters>();
+            dallEParametersElement.Show(parameters);
+            generationOptionsElement.Show(favorite.GenerationOptions);
+            
+            RefreshCode();
         }
     }
 }

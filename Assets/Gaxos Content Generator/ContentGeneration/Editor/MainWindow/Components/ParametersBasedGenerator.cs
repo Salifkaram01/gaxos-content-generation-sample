@@ -2,7 +2,6 @@ using System;
 using System.Threading.Tasks;
 using ContentGeneration.Helpers;
 using ContentGeneration.Models;
-using Newtonsoft.Json.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -15,6 +14,7 @@ namespace ContentGeneration.Editor.MainWindow.Components
         bool Valid();
         void ApplyParameters(T parameters);
         string GetCode();
+        void Show(Favorite generatorParameters);
     }
     
     public abstract class ParametersBasedGenerator<T, TU> : VisualElementComponent, IGeneratorVisualElement 
@@ -101,6 +101,10 @@ namespace ContentGeneration.Editor.MainWindow.Components
         }
 
         public abstract Generator generator { get; }
-        public abstract void Show(JObject generatorParameters);
+
+        public void Show(Favorite favorite)
+        {
+            parameters.Show(favorite);
+        }
     }
 }

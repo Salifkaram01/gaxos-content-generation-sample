@@ -15,6 +15,9 @@ namespace ContentGeneration.Models
         [JsonProperty("id")]
         public string ID;
 
+        [JsonProperty("options")]
+        public GenerationOptions GenerationOptions;
+
         [JsonProperty("deducted_credits")] 
         public float DeductedCredits;
     }

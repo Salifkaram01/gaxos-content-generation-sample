@@ -55,7 +55,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.FavoritesList
             {
                 if (applyFavorite.enabledSelf)
                 {
-                    MainWindow.instance.GoTo(value.Generator, value.GeneratorParameters);
+                    MainWindow.instance.GoTo(value);
                 }
             };
             generatorParameters.SetVerticalScrollerVisibility(ScrollerVisibility.Auto);

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using ContentGeneration.Models;
 using ContentGeneration.Models.Meshy;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -77,6 +78,11 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
             return $"\t\tImage = <Texture2D object>,\n" +
                    $"\t\tEnablePbr = \"{enablePbr.value}\",\n" +
                    $"\t\tSurfaceMode = SurfaceMode.{surfaceMode.value}"; 
+        }
+
+        public void Show(Favorite favorite)
+        {
+            throw new NotImplementedException();
         }
     }
 }

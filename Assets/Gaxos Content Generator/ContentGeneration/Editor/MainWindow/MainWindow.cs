@@ -11,7 +11,6 @@ using ContentGeneration.Editor.MainWindow.Components.FavoritesList;
 using ContentGeneration.Editor.MainWindow.Components.StabilityAI;
 using ContentGeneration.Helpers;
 using ContentGeneration.Models;
-using Newtonsoft.Json.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -172,12 +171,11 @@ namespace ContentGeneration.Editor.MainWindow
             }
         }
 
-        public Generator? showGenerator;
-        public JObject showGeneratorParameters;
-        public void GoTo(Generator generator, JObject generatorParameters)
+        public Favorite showFavorite;
+        public void GoTo(Favorite favorite)
         {
             string toggleName;
-            switch (generator)
+            switch (favorite.Generator)
             {
                 case Generator.StabilityTextToImage:
                 case Generator.StabilityTextToImageCore:
@@ -203,12 +201,11 @@ namespace ContentGeneration.Editor.MainWindow
                     toggleName = "subWindowToggleGaxos";
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException("generator", generator.ToString());
+                    throw new ArgumentOutOfRangeException("generator", favorite.Generator.ToString());
             }
 
             _allToggles.First(i => i.name == toggleName).ToggleOn();
-            showGenerator = generator;
-            showGeneratorParameters = generatorParameters;
+            showFavorite = favorite;
         }
     }
 }

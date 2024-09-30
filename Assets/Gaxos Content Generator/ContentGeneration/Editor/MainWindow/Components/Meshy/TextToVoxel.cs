@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using ContentGeneration.Models;
 using ContentGeneration.Models.Meshy;
-using Newtonsoft.Json.Linq;
 using UnityEngine.UIElements;
 
 namespace ContentGeneration.Editor.MainWindow.Components.Meshy
@@ -33,8 +32,5 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
         }
 
         public override Generator generator => Generator.MeshyTextToVoxel;
-        public override void Show(JObject generatorParameters)
-        {
-        }
     }
 }

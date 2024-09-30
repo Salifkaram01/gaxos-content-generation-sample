@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using ContentGeneration.Models;
 using ContentGeneration.Models.Gaxos;
-using Newtonsoft.Json.Linq;
 using UnityEngine.UIElements;
 
 namespace ContentGeneration.Editor.MainWindow.Components.Gaxos
@@ -32,8 +31,5 @@ namespace ContentGeneration.Editor.MainWindow.Components.Gaxos
         }
 
         public override Generator generator => Generator.GaxosTextToImage;
-        public override void Show(JObject generatorParameters)
-        {
-        }
     }
 }

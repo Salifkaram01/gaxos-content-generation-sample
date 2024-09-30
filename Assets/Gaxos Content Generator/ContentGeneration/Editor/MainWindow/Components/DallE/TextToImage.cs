@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using ContentGeneration.Models;
 using ContentGeneration.Models.DallE;
-using Newtonsoft.Json.Linq;
 using UnityEngine.UIElements;
 
 namespace ContentGeneration.Editor.MainWindow.Components.DallE
@@ -31,8 +30,5 @@ namespace ContentGeneration.Editor.MainWindow.Components.DallE
         }
 
         public override Generator generator => Generator.DallETextToImage;
-        public override void Show(JObject generatorParameters)
-        {
-        }
     }
 }
