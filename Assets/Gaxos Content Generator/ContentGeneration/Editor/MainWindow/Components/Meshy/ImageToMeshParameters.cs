@@ -82,7 +82,11 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
 
         public void Show(Favorite favorite)
         {
-            throw new NotImplementedException();
+            var meshyImageToMeshParameters = favorite.GeneratorParameters.ToObject<MeshyImageToMeshParameters>();
+            
+            enablePbr.value = meshyImageToMeshParameters.EnablePbr;
+            surfaceMode.value = meshyImageToMeshParameters.SurfaceMode;
+            CodeHasChanged();
         }
     }
 }

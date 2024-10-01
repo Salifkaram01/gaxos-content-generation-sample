@@ -95,7 +95,6 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
         public void Show(Favorite favorite)
         {
             var stabilityParameters = favorite.GeneratorParameters.ToObject<StabilityStableFast3d>();
-            generationOptions.Show(favorite.GenerationOptions);
             
             textureResolution.value = stabilityParameters.TextureResolution;
             foregroundRatio.value = stabilityParameters.ForegroundRatio;
