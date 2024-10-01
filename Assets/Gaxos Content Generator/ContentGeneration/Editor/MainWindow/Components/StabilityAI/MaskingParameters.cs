@@ -75,9 +75,12 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
             imageRequired.style.visibility = Visibility.Hidden;
             maskRequired.style.visibility = Visibility.Hidden;
 
-            mask.style.display = (MaskSource)maskSource.value == MaskSource.InitImageAlpha
-                ? DisplayStyle.None
-                : DisplayStyle.Flex;
+            RegisterCallback<AttachToPanelEvent>(_ =>
+                {
+                    mask.style.display = (MaskSource)maskSource.value == MaskSource.InitImageAlpha
+                        ? DisplayStyle.None
+                        : DisplayStyle.Flex;
+                });
             maskSource.RegisterValueChangedCallback(evt =>
             {
                 mask.style.display = (MaskSource)evt.newValue == MaskSource.InitImageAlpha

@@ -26,6 +26,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.DallE
         GenerationOptionsElement generationOptionsElement => this.Q<GenerationOptionsElement>("generationOptions");
         ImageSelection image => this.Q<ImageSelection>("image");
         Label imageRequired => this.Q<Label>("imageRequiredLabel");
+        Label maskRequired => this.Q<Label>("maskRequiredLabel");
         ImageSelection mask => this.Q<ImageSelection>("mask");
         VisualElement requestSent => this.Q<VisualElement>("requestSent");
         VisualElement requestFailed => this.Q<VisualElement>("requestFailed");
@@ -41,6 +42,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.DallE
             dallEParametersElement.model.SetEnabled(false);
 
             imageRequired.style.visibility = Visibility.Hidden;
+            maskRequired.style.visibility = Visibility.Hidden;
            
             requestSent.style.display = DisplayStyle.None;
             requestFailed.style.display = DisplayStyle.None;
@@ -53,6 +55,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.DallE
                 requestSent.style.display = DisplayStyle.None;
                 requestFailed.style.display = DisplayStyle.None;
                 imageRequired.style.visibility = Visibility.Hidden;
+                maskRequired.style.visibility = Visibility.Hidden;
 
                 if (!dallEParametersElement.Valid())
                 {
@@ -62,6 +65,12 @@ namespace ContentGeneration.Editor.MainWindow.Components.DallE
                 if (image.image == null)
                 {
                     imageRequired.style.visibility = Visibility.Visible;
+                    return;
+                }
+
+                if (mask.image == null)
+                {
+                    maskRequired.style.visibility = Visibility.Visible;
                     return;
                 }
 

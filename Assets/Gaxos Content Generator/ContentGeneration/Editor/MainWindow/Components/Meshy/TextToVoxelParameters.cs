@@ -136,7 +136,12 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
 
         public void Show(Favorite favorite)
         {
-            throw new NotImplementedException();
+            var parameters = favorite.GeneratorParameters.ToObject<MeshyTextToVoxelParameters>();
+            prompt.value = parameters.Prompt;
+            voxelSizeShrinkFactor.value = parameters.VoxelSizeShrinkFactor;
+            negativePrompt.value = parameters.NegativePrompt;
+            sendSeed.value = parameters.Seed.HasValue;
+            seed.value = parameters.Seed ?? 0;
         }
     }
 }

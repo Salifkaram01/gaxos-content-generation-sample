@@ -25,7 +25,7 @@ namespace ContentGeneration.Editor.MainWindow.Components
 
         public TabsContainer()
         {
-            RegisterCallback<AttachToPanelEvent>(e =>
+            RegisterCallback<AttachToPanelEvent>(_ =>
             {
                 RadioButton showRadioButton = null;
                 foreach (var visualElement in contentContainer!.Children())

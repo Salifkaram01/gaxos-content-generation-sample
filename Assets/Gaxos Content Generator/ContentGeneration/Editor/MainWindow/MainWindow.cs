@@ -42,7 +42,7 @@ namespace ContentGeneration.Editor.MainWindow
             var rootInstance = _root.Instantiate();
             rootInstance.style.height = new StyleLength(new Length(100, LengthUnit.Percent));
 
-            rootInstance.RegisterCallback<AttachToPanelEvent>(e =>
+            rootInstance.RegisterCallback<AttachToPanelEvent>(_ =>
             {
                 instance = this;
             });

@@ -168,7 +168,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.Gaxos
             sampler.value = gaxosParameters.SamplerName;
             scheduler.value = gaxosParameters.Scheduler;
             denoise.value = gaxosParameters.Denoise ?? 1;
-            loras.value = string.Join(',', gaxosParameters.Loras);
+            loras.value = gaxosParameters.Loras == null ? null :  string.Join(',', gaxosParameters.Loras);
         }
     }
 }

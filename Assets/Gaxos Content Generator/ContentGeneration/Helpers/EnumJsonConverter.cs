@@ -13,10 +13,10 @@ namespace ContentGeneration.Helpers
         public sealed override T ReadJson(JsonReader reader, Type objectType, T existingValue, bool hasExistingValue,
             JsonSerializer serializer)
         {
-            var valueString = AdaptString((string)reader.Value!);
+            var valueString = AdaptString(reader.Value!.ToString());
             foreach (var value in Enum.GetValues(typeof(T)))
             {
-                if (valueString == value.ToString().ToLowerInvariant())
+                if (value.ToString().Equals(valueString, StringComparison.InvariantCultureIgnoreCase))
                 {
                     return (T)value;
                 }

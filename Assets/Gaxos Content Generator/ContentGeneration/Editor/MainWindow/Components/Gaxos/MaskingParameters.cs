@@ -39,7 +39,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.Gaxos
                 mask.style.display = value ? DisplayStyle.None : DisplayStyle.Flex;
                 if (!value)
                 {
-                    maskRequired.style.display = DisplayStyle.None;
+                    maskRequired.style.visibility = Visibility.Hidden;
                 }
             }
         }
