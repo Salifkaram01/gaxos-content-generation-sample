@@ -32,7 +32,7 @@ namespace Sample.Base
             });
             SubscribeToGeneratedImageChangedEvent(v =>
             {
-                toggle.isOn = v.ID == parentPublishedImageRow.publishedAsset?.ID;
+                toggle.isOn = v?.ID == parentPublishedImageRow.publishedAsset?.ID;
             });
         }
     }
