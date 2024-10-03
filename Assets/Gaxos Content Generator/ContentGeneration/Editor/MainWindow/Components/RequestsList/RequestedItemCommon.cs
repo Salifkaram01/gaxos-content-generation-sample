@@ -32,6 +32,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
         Button deleteButton => this.Q<Button>("deleteButton");
         ScrollView imagesContainer => this.Q<ScrollView>("imagesContainer");
         Button saveFavorite => this.Q<Button>("saveFavorite");
+        Button deleteFavorite => this.Q<Button>("deleteFavorite");
 
         public override VisualElement contentContainer => this.Q<VisualElement>("childrenContainer");
 
@@ -70,6 +71,21 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
                 {
                     refreshButton.SetEnabled(false);
                     ContentGenerationApi.Instance.AddFavorite(value.ID).Finally(() =>
+                    {
+                        ContentGenerationStore.Instance.RefreshFavoritesAsync().Finally(() =>
+                        {
+                            value = value;
+                            refreshButton.SetEnabled(true);
+                        });
+                    });
+                }
+            };
+            deleteFavorite.clicked += () =>
+            {
+                if (deleteFavorite.enabledSelf)
+                {
+                    refreshButton.SetEnabled(false);
+                    ContentGenerationApi.Instance.DeleteFavorite(value.ID).Finally(() =>
                     {
                         ContentGenerationStore.Instance.RefreshFavoritesAsync().Finally(() =>
                         {
@@ -135,13 +151,16 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
                 requestedItem.subWindowName = generatorName.CamelCaseToSpacesAndUpperCaseEachWord();
 
                 status.text = value.Status.ToString();
-                if (value.Status != RequestStatus.Generated || ContentGenerationStore.Instance.Favorites.Any(i => i.ID == value.ID))
+                if (value.Status != RequestStatus.Generated)
                 {
-                    saveFavorite.style.visibility = Visibility.Hidden;
+                    saveFavorite.style.display = DisplayStyle.None;
+                    deleteFavorite.style.display = DisplayStyle.None;
                 }
                 else
                 {
-                    saveFavorite.style.visibility = Visibility.Visible;
+                    var isFavorite = ContentGenerationStore.Instance.Favorites.Any(i => i.ID == value.ID);
+                    saveFavorite.style.display =  isFavorite ? DisplayStyle.None : DisplayStyle.Flex;
+                    deleteFavorite.style.display =  isFavorite ? DisplayStyle.Flex : DisplayStyle.None;
                 }
 
                 refreshButton.style.display =

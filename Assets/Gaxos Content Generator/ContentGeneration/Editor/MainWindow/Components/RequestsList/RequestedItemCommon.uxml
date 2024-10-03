@@ -11,9 +11,12 @@
                 <ui:Label tabindex="-1" text="Generator:" parse-escape-sequences="true" display-tooltip-when-elided="true" style="margin-right: 7px;" />
                 <ui:Label tabindex="-1" text="&lt;generator&gt;" parse-escape-sequences="true" display-tooltip-when-elided="true" name="generator" style="color: rgb(0, 241, 255);" />
                 <ui:VisualElement style="flex-grow: 1;" />
-                <ui:Button name="saveFavorite" text="Save favorite" class="favoriteButton">
-                    <ui:VisualElement class="icon" />
-                </ui:Button>
+                <ui:VisualElement style="favoriteContainer">
+                    <ui:Button name="saveFavorite" text="Save favorite" class="favoriteButton">
+                        <ui:VisualElement class="icon" />
+                    </ui:Button>
+                    <ui:Button name="deleteFavorite" text="Delete favorite" class="deleteButton" />
+                </ui:VisualElement>
             </ui:VisualElement>
             <ui:VisualElement name="errorDetails" class="row" style="flex-direction: row;">
                 <ui:Label tabindex="-1" text="Error details:" parse-escape-sequences="true" display-tooltip-when-elided="true" style="margin-right: 7px;" />

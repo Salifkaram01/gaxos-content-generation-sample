@@ -51,3 +51,12 @@
     background-image: url('./Favorite Add.png');
     top: 2px;
 }
+
+.deleteButton {
+    width: 201px;
+    height: 30px;
+    border-radius: 15px;
+    font-size: 15px;
+    background-color: rgb(191, 80, 73);
+    -unity-font-style: bold;
+}
