@@ -51,6 +51,8 @@ namespace Sample.Base
                     break;
             }
 
+            _goToRequestButton.interactable = request.Status == RequestStatus.Generated;
+
             if (request.Status == RequestStatus.Pending && gameObject.activeInHierarchy && _refreshCoroutine == null)
             {
                 _refreshCoroutine = StartCoroutine(RefreshStatus());

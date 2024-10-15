@@ -413,7 +413,7 @@ GameObject:
   - component: {fileID: 4188418961485589129}
   - component: {fileID: 8023910327960027139}
   m_Layer: 5
-  m_Name: StabilityRequestRow
+  m_Name: GaxosRequestRow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
