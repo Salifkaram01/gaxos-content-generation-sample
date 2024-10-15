@@ -106,17 +106,25 @@ namespace ContentGeneration.Editor.MainWindow.Components
 
         public void Show(GenerationOptions generationOptions)
         {
-            makeTransparentColor.value = generationOptions.TransparentColor.HasValue;
-            if(generationOptions.TransparentColor.HasValue)
+            if(generationOptions == null)
             {
-                transparentColor.value = new Color(
-                    generationOptions.TransparentColor.Value.r,
-                    generationOptions.TransparentColor.Value.g,
-                    generationOptions.TransparentColor.Value.b
-                );
+                makeTransparentColor.value = false;
+                improvePrompt.value = false;
             }
-            transparentColorReplaceDelta.value = generationOptions.TransparentColorReplaceDelta;
-            improvePrompt.value = generationOptions.ImprovePrompt;
+            else
+            {
+                makeTransparentColor.value = generationOptions.TransparentColor.HasValue;
+                if(generationOptions.TransparentColor.HasValue)
+                {
+                    transparentColor.value = new Color(
+                        generationOptions.TransparentColor.Value.r,
+                        generationOptions.TransparentColor.Value.g,
+                        generationOptions.TransparentColor.Value.b
+                    );
+                }
+                transparentColorReplaceDelta.value = generationOptions.TransparentColorReplaceDelta;
+                improvePrompt.value = generationOptions.ImprovePrompt;
+            }
         }
     }
 }
